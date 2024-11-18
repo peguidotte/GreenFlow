@@ -1,6 +1,7 @@
 import { Outlet, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import './index.css';
 
 function App() {
   const isLoggedIn = localStorage.getItem('loggedIn') === 'true';
@@ -10,7 +11,7 @@ function App() {
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar />
-      <div className="flex-grow">
+      <div className="mt-16 flex-grow">
         <Outlet />
       </div>
       {showFooter && <Footer />}
