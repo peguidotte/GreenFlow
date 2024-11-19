@@ -1,0 +1,29 @@
+.banner{
+    position: absolute;
+    top: 0;
+    height: 90vh;
+    width: 100%;
+    z-index: -1;
+    background-image: url('../assets/background_image.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    @media screen and (min-height: 640px) {
+        height: 60vh;
+    }
+    @media screen and (min-height: 720px) {
+        height: 55vh;
+    }
+    @media screen and (min-height: 768px) {
+        height: 50vh;
+    }
+    @media screen and (min-height: 800px) {
+        height: 45vh;
+    }
+    @media screen and (min-height: 900px) {
+        height: 42vh;
+    }
+    @media screen and (min-height: 1024px) {
+        height: 45vh;
+    }
+}

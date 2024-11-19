@@ -27,7 +27,7 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="fixed top-0 left-0 right-0 m-0 backdrop-blur-sm">
+      <div className="fixed top-0 left-0 right-0 m-0 backdrop-blur-sm z-50">
         <nav
           className={`p-2 flex justify-between items-center ${
             isLogged && "grid"
