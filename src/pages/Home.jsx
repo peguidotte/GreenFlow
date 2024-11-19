@@ -5,7 +5,6 @@ import Aos from "aos";
 import "aos/dist/aos.css";
 import "../pages/Home.css";
 
-
 function Home() {
   const navigate = useNavigate();
   const isLoggedIn = localStorage.getItem("loggedIn") === "true";
@@ -37,8 +36,7 @@ function Home() {
 
   return (
     <>
-    <div className="banner">
-        </div>
+      <div className="banner"></div>
       <section
         id="hero"
         className="m-2 flex-col gap-12 flex sm:mx-20 sm:mt-10 lg:mx-32 lg:gap-20 text-white"
@@ -62,8 +60,15 @@ function Home() {
           <SignButton />
         </div>
       </section>
-      <div className="flex justify-center mt-44">
-      <EnergyForm />
+      <div className="banner2">
+        <section id="form" className="flex items-center flex-col justify-center py-32">
+          <h2 data-aos="fade-up" className="px-4 sm:px-8 md:px-12 lg:px-32 xl:px-56 text-white font-bold text-xl text-center sm:text-4xl">DESCUBRA QUAL O NÍVEL DO 
+          SEU CONSUMO DE ENERGIA</h2>
+          <p data-aos="fade-up" className="text-white font-normal text-sm px-6 sm:px-10 md:px-16 lg:px-52 xl:px-60 text-balance text-center mb-4">Observações: Seu perfil de consumo serve para gerarmos uma média justa baseado em seu consumo real,
+          seu consumo em Kwh pode ser encontrado na sua conta de luz, caso seu perfil seja residencial insira o número de habitantes para gerarmos uma média por pessoa,
+          seu estado é pedido somente para medições de acordo com a tarifa energética do estado.</p>
+          <EnergyForm/>
+        </section>
       </div>
       <div
         className="card bg-gray-100 p-6 rounded-lg shadow-md mt-8"

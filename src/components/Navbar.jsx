@@ -58,14 +58,14 @@ const Navbar = () => {
               <IoPerson className="text-mid-green text-3xl" />
             </button>
           ) : (
-            <button className="col-span-2 flex justify-end gap-1">
+            <div className="col-span-2 flex justify-end gap-1">
               <button onClick={handleLogin} className="bg-mid-green font-semibold text-sm text-white py-1 px-2 rounded-lg shadow-md hover:bg-dark-green">
                 Login
               </button>
               <button className="bg-white text-mid-green text-sm font-semibold py-1 px-2 rounded-lg shadow-md hover:text-dark-green">
                 Cadastre-se
               </button>
-            </button>
+            </div>
           )}
         </nav>
         {isOpen && (

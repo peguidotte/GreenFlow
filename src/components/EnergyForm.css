@@ -3,12 +3,31 @@ form{
     flex-direction: column;
     gap: 20px;
     padding: 20px;
-    
 }
 
 input, select{
     width: 100%;
     padding: 10px !important;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    border-radius: 20px;    
+    border-radius: 20px;  
 }
+
+input, select, button{
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.4);
+}
+
+input:focus, select:focus{
+    outline: none;
+}
+
+input[type="number"].kwh::-webkit-outer-spin-button,
+input[type="number"].kwh::-webkit-inner-spin-button {
+  margin-right: 40px;
+}
+
+
+input[type="number"].people::-webkit-outer-spin-button,
+input[type="number"].people::-webkit-inner-spin-button {
+  margin-right: 90px;
+}
+
+

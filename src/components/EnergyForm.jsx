@@ -3,10 +3,10 @@ import "./EnergyForm.css";
 
 const EnergyForm = () => {
   const [formData, setFormData] = useState({
-    consumingProfile: String,
-    peopleLiving: String,
-    energyConsumption: String,
-    state: String,
+    consumingProfile: "",
+    peopleLiving: "",
+    energyConsumption: "",
+    state: "",
   });
 
   const [states, setStates] = useState([]);
@@ -23,38 +23,73 @@ const EnergyForm = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    if (name === "peopleLiving" && value < 0) {
+      return;
+    }
+    if (name === "energyConsumption" && value < 0) {
+      return;
+    }
     setFormData({
       ...formData,
       [name]: value,
     });
   };
 
+  const handleKeyDown = (e) => {
+    if (e.key === "-" || e.key === "e" || e.key === "+") {
+      e.preventDefault(); // Impede a entrada de caracteres que resultariam em valores negativos
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (
       !formData.consumingProfile ||
-      !formData.peopleLiving ||
       !formData.energyConsumption ||
-      !formData.state
+      !formData.state ||
+      ((formData.consumingProfile === "residencialComum" ||
+        formData.consumingProfile === "residencialBaixaRenda") &&
+        !formData.peopleLiving)
     ) {
       alert("Por favor, preencha todos os campos.");
       return;
     }
+
+    const dataToSave = {
+      ...formData,
+      peopleLiving: formData.peopleLiving ? Number(formData.peopleLiving) : null,
+      energyConsumption: Number(formData.energyConsumption),
+    };
+
+    localStorage.setItem("formData", JSON.stringify(dataToSave));
+    alert("Informações salvas com sucesso!");
   };
 
   return (
     <form onSubmit={handleSubmit} className="text-xs sm:text-base">
       <div>
-        <label>Perfil de consumo:</label>
         <select
+          aria-label="Selecione seu perfil de consumo"
+          className={`${
+            formData.consumingProfile === "" ? "text-gray" : "text-black"
+          }`}
           name="consumingProfile"
           value={formData.consumingProfile}
           onChange={handleChange}
         >
-          <option value="comercial">Comercial</option>
-          <option value="industrial">Industrial</option>
-          <option value="residencialComum">Residencial comum</option>
-          <option value="residencialBaixaRenda">
+          <option value="" className="text-gray">
+            Selecione seu perfil de consumo
+          </option>
+          <option value="comercial" className="text-black">
+            Comercial
+          </option>
+          <option value="industrial" className="text-black">
+            Industrial
+          </option>
+          <option value="residencialComum" className="text-black">
+            Residencial comum
+          </option>
+          <option value="residencialBaixaRenda" className="text-black">
             Residencial baixa renda (com desconto)
           </option>
         </select>
@@ -69,40 +104,66 @@ const EnergyForm = () => {
       >
         {(formData.consumingProfile === "residencialComum" ||
           formData.consumingProfile === "residencialBaixaRenda") && (
-          <div>
-            <label>Quantas pessoas vivem com você?</label>
+          <div className="relative">
             <input
+              aria-label="Digite o número de residentes"
+              className="w-full people"
               type="number"
               name="peopleLiving"
               placeholder="Residentes"
               value={formData.peopleLiving}
               onChange={handleChange}
+              onKeyDown={handleKeyDown}
             />
+            <span className="absolute inset-y-0 right-0 flex items-center pr-3">
+              Moradores
+            </span>
           </div>
         )}
-        <div>
-          <label>Seu último consumo de energia:</label>
+        <div className="relative">
           <input
-            placeholder="Em KWh"
+            aria-label="Digite seu consumo de energia em KWh"
+            placeholder="Consumo em KWh"
             type="number"
             name="energyConsumption"
             value={formData.energyConsumption}
             onChange={handleChange}
+            onKeyDown={handleKeyDown}
+            className="w-full pr-10 kwh"
           />
+          <span className="absolute inset-y-0 right-0 flex items-center pr-3">
+            KWh
+          </span>
         </div>
       </div>
       <div>
-        <label>Estado:</label>
-        <select name="state" value={formData.state} onChange={handleChange}>
-          <option value="">Selecione um estado</option>
+        <select
+          aria-label="Selecione um estado"
+          name="state"
+          className={`${formData.state === "" ? "text-gray" : "text-black"}`}
+          value={formData.state}
+          onChange={handleChange}
+        >
+          <option value="" className="text-gray">
+            Selecione um estado
+          </option>
           {states.map((state) => (
-            <option key={state.id} value={state.nome}>
+            <option key={state.id} value={state.nome} className="text-black">
               {state.nome}
             </option>
           ))}
         </select>
       </div>
-      <button type="submit" >Enviar</button>
+      <div className="flex items-center justify-center">
+        <button
+          type="submit"
+          className="mt-3 bg-white py-1 px-7 rounded-[20px] font-bold text-dark-green duration-700
+          border-2 border-white hover:bg-dark-green hover:text-white hover:border-dark-green
+          text-base sm:text-lg md:text-xl lg:text-2xl"
+        >
+          Salvar
+        </button>
+      </div>
     </form>
   );
 };
