@@ -1,13 +1,15 @@
-import EnergyForm from "../components/EnergyForm";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Aos from "aos";
+import EnergyForm from "../components/EnergyForm";
+import FeedbackCards from "../components/FeedbackCards";
 import "aos/dist/aos.css";
 import "../pages/Home.css";
 
 function Home() {
   const navigate = useNavigate();
   const isLoggedIn = localStorage.getItem("loggedIn") === "true";
+  const [formSubmitted, setFormSubmitted] = useState(false);
 
   useEffect(() => {
     Aos.init({ duration: 1000 });
@@ -67,17 +69,16 @@ function Home() {
           <p data-aos="fade-up" className="text-white font-normal text-sm px-6 sm:px-10 md:px-16 lg:px-52 xl:px-60 text-balance text-center mb-4">Observações: Seu perfil de consumo serve para gerarmos uma média justa baseado em seu consumo real,
           seu consumo em Kwh pode ser encontrado na sua conta de luz, caso seu perfil seja residencial insira o número de habitantes para gerarmos uma média por pessoa,
           seu estado é pedido somente para medições de acordo com a tarifa energética do estado.</p>
-          <EnergyForm/>
+          <EnergyForm setFormSubmitted={setFormSubmitted} />
         </section>
       </div>
       <div
-        className="card bg-gray-100 p-6 rounded-lg shadow-md mt-8"
-        data-aos="fade-up"
+        className="flex flex-col items-center justify-center"
       >
-        <p>Aqui ficará os cards de dica</p>
+        <FeedbackCards formSubmitted={formSubmitted} />
       </div>
-      <div className="card bg-gray-100 p-6 rounded-lg shadow-md mt-4">
-        <p>Realizar Cadastro</p>
+      <div className="flex justify-center mt-10" data-aos="fade-up">
+          <SignButton />
       </div>
     </>
   );

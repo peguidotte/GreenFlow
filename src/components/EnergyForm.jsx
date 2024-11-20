@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 import "./EnergyForm.css";
 
-const EnergyForm = () => {
+const EnergyForm = ({ setFormSubmitted }) => {
   const [formData, setFormData] = useState({
     consumingProfile: "",
     peopleLiving: "",
@@ -63,6 +64,7 @@ const EnergyForm = () => {
 
     localStorage.setItem("formData", JSON.stringify(dataToSave));
     alert("Informações salvas com sucesso!");
+    setFormSubmitted((prev) => !prev); // Toggle the formSubmitted state to trigger re-fetch
   };
 
   return (
@@ -166,6 +168,10 @@ const EnergyForm = () => {
       </div>
     </form>
   );
+};
+
+EnergyForm.propTypes = {
+  setFormSubmitted: PropTypes.func.isRequired,
 };
 
 export default EnergyForm;
