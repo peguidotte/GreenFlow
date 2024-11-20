@@ -2,9 +2,9 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Aos from "aos";
 import EnergyForm from "../components/EnergyForm";
-import FeedbackCards from "../components/FeedbackCards";
+import FeedbackCards from "../components/Feedback";
 import "aos/dist/aos.css";
-import "../pages/Home.css";
+import "../index.css"
 
 function Home() {
   const navigate = useNavigate();
@@ -12,7 +12,7 @@ function Home() {
   const [formSubmitted, setFormSubmitted] = useState(false);
 
   useEffect(() => {
-    Aos.init({ duration: 1000 });
+    Aos.init({ duration: 1000});
   }, []);
 
   useEffect(() => {
@@ -38,7 +38,7 @@ function Home() {
 
   return (
     <>
-      <div className="banner"></div>
+      <div className="banner-head"></div>
       <section
         id="hero"
         className="m-2 flex-col gap-12 flex sm:mx-20 sm:mt-10 lg:mx-32 lg:gap-20 text-white"
@@ -62,19 +62,20 @@ function Home() {
           <SignButton />
         </div>
       </section>
-      <div className="banner2">
+      <div className="banner-green">
         <section
           id="form"
           className="flex items-center flex-col justify-center py-32"
         >
           <h2
-            data-aos="fade-up"
+            data-aos="zoom-in"
             className="px-4 sm:px-8 md:px-12 lg:px-32 xl:px-56 text-white font-bold text-xl text-center sm:text-4xl"
           >
             DESCUBRA QUAL O NÍVEL DO SEU CONSUMO DE ENERGIA
           </h2>
           <p
-            data-aos="fade-up"
+            data-aos="zoom-in"
+            data-aos-anchor-placement="top-bottom"
             className="text-white font-normal text-sm px-6 sm:px-10 md:px-16 lg:px-52 xl:px-60 text-balance text-center mb-4"
           >
             Observações: Seu perfil de consumo serve para gerarmos uma média
@@ -91,11 +92,13 @@ function Home() {
         <div className="flex flex-col items-center justify-center gap-20 mt-10">
           <FeedbackCards formSubmitted={formSubmitted} />
           <div className="flex flex-col justify-center items-center gap-4">
-            <p className="w-8/12 text-center" data-aos="fade-up">
+            <p className="w-8/12 text-center" data-aos="zoom-in"
+            data-aos-anchor-placement="top-bottom">
               Clique no botão abaixo para fazer cadastro na GreenFlow e
               desfrutar de todas as funcionalidades disponíveis.
             </p>
-            <div className="flex justify-center" data-aos="fade-up">
+            <div className="flex justify-center" data-aos="zoom-in"
+            data-aos-anchor-placement="top-bottom">
               <SignButton />
             </div>
           </div>

@@ -7,6 +7,30 @@
     font-family: 'Poppins', sans-serif;
 }
 
+.banner-head{
+    position: absolute;
+    top: 0;
+    height: 75vh;
+    width: 100%;
+    z-index: -1;
+    background-image: url('assets/background_image.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    @media (min-aspect-ratio: 16/10) {
+        height: 105vh; /* Aumenta a altura para telas largas */
+    }
+}
 
+.banner-green{
+    margin-top: 50px;
+    background-image: url('assets/background_green.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
 
-/* ... */
+.banner-foot{
+    background-image: url('assets/background_footer.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
