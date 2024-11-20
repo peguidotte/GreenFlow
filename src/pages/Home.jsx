@@ -63,23 +63,44 @@ function Home() {
         </div>
       </section>
       <div className="banner2">
-        <section id="form" className="flex items-center flex-col justify-center py-32">
-          <h2 data-aos="fade-up" className="px-4 sm:px-8 md:px-12 lg:px-32 xl:px-56 text-white font-bold text-xl text-center sm:text-4xl">DESCUBRA QUAL O NÍVEL DO 
-          SEU CONSUMO DE ENERGIA</h2>
-          <p data-aos="fade-up" className="text-white font-normal text-sm px-6 sm:px-10 md:px-16 lg:px-52 xl:px-60 text-balance text-center mb-4">Observações: Seu perfil de consumo serve para gerarmos uma média justa baseado em seu consumo real,
-          seu consumo em Kwh pode ser encontrado na sua conta de luz, caso seu perfil seja residencial insira o número de habitantes para gerarmos uma média por pessoa,
-          seu estado é pedido somente para medições de acordo com a tarifa energética do estado.</p>
+        <section
+          id="form"
+          className="flex items-center flex-col justify-center py-32"
+        >
+          <h2
+            data-aos="fade-up"
+            className="px-4 sm:px-8 md:px-12 lg:px-32 xl:px-56 text-white font-bold text-xl text-center sm:text-4xl"
+          >
+            DESCUBRA QUAL O NÍVEL DO SEU CONSUMO DE ENERGIA
+          </h2>
+          <p
+            data-aos="fade-up"
+            className="text-white font-normal text-sm px-6 sm:px-10 md:px-16 lg:px-52 xl:px-60 text-balance text-center mb-4"
+          >
+            Observações: Seu perfil de consumo serve para gerarmos uma média
+            justa baseado em seu consumo real, seu consumo em Kwh pode ser
+            encontrado na sua conta de luz, caso seu perfil seja residencial
+            insira o número de habitantes para gerarmos uma média por pessoa,
+            seu estado é pedido somente para medições de acordo com a tarifa
+            energética do estado.
+          </p>
           <EnergyForm setFormSubmitted={setFormSubmitted} />
         </section>
       </div>
-      <div
-        className="flex flex-col items-center justify-center"
-      >
-        <FeedbackCards formSubmitted={formSubmitted} />
-      </div>
-      <div className="flex justify-center mt-10" data-aos="fade-up">
-          <SignButton />
-      </div>
+      <section className="">
+        <div className="flex flex-col items-center justify-center gap-20 mt-10">
+          <FeedbackCards formSubmitted={formSubmitted} />
+          <div className="flex flex-col justify-center items-center gap-4">
+            <p className="w-8/12 text-center" data-aos="fade-up">
+              Clique no botão abaixo para fazer cadastro na GreenFlow e
+              desfrutar de todas as funcionalidades disponíveis.
+            </p>
+            <div className="flex justify-center" data-aos="fade-up">
+              <SignButton />
+            </div>
+          </div>
+        </div>
+      </section>
     </>
   );
 }

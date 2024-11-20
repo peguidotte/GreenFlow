@@ -1,0 +1,151 @@
+{
+    "residencialComum": {
+      "Péssimo": [
+        "💡 Substitua lâmpadas incandescentes por LEDs. Economize até 80% de energia!",
+        "📉 Reduza o uso de ar-condicionado. Utilize ventiladores e ventile o ambiente.",
+        "🔌 Desligue aparelhos que não estão em uso, como TVs e carregadores.",
+        "🧹 Limpe regularmente as lâmpadas e luminárias para manter a eficiência.",
+        "🕹️ Desligue consoles de videogame quando não estiver jogando."
+      ],
+      "Ruim": [
+        "⏰ Use timers para aparelhos elétricos e evite consumo desnecessário à noite.",
+        "🌞 Aproveite mais a luz natural e evite ligar lâmpadas durante o dia.",
+        "💻 Configure computadores e monitores para modo de economia de energia.",
+        "📞 Prefira reuniões online curtas para evitar deixar o computador ligado por muito tempo.",
+        "🔌 Organize cabos e evite extensões desnecessárias para melhorar a eficiência."
+      ],
+      "Médio": [
+        "🔧 Faça manutenção regular de seus aparelhos, especialmente geladeiras.",
+        "🚿 Use chuveiros em modo econômico sempre que possível.",
+        "🌳 Plantar árvores ao redor da casa pode ajudar a manter o ambiente mais fresco.",
+        "🎛️ Ajuste o termostato do ar-condicionado para uma temperatura confortável.",
+        "🔋 Use baterias recarregáveis em vez de pilhas descartáveis."
+      ],
+      "Bom": [
+        "🌱 Considere investir em eletrodomésticos com selo Procel de eficiência.",
+        "📊 Monitore seu consumo semanalmente e ajuste seus hábitos.",
+        "🏠 Use cortinas ou persianas térmicas para regular a temperatura interna.",
+        "🌬️ Instale ventiladores de teto para complementar o ar-condicionado.",
+        "🔄 Faça revisões periódicas em seu sistema elétrico para evitar perdas."
+      ],
+      "Ótimo": [
+        "🔋 Invista em energia solar para reduzir seus custos a longo prazo.",
+        "🤝 Compartilhe boas práticas de economia com seus vizinhos.",
+        "🌍 Continue focado na sustentabilidade! Cada gesto importa.",
+        "🛠️ Avalie se é possível instalar sistemas inteligentes de automação residencial.",
+        "🌿 Participe de iniciativas comunitárias de energia sustentável."
+      ]
+    },
+    "residencialBaixaRenda": {
+      "Péssimo": [
+        "🕯️ Use lâmpadas econômicas como LEDs para reduzir o consumo.",
+        "🛑 Evite deixar a TV ligada sem ninguém assistindo.",
+        "👕 Lave roupas em grandes quantidades para economizar água e energia.",
+        "📴 Sempre desconecte carregadores da tomada quando não estiverem em uso.",
+        "🌞 Aproveite o sol para secar roupas, eliminando a necessidade de secadoras."
+      ],
+      "Ruim": [
+        "🌡️ Regule a temperatura do chuveiro para evitar altos gastos.",
+        "📴 Desligue eletrodomésticos da tomada quando não estiverem em uso.",
+        "🌞 Use o sol para iluminar e secar roupas, sem necessidade de energia elétrica.",
+        "🕒 Evite usar ferro de passar em horários de pico.",
+        "🍳 Cozinhe em fogo baixo para economizar gás e energia."
+      ],
+      "Médio": [
+        "📺 Assista TV com toda a família em vez de várias TVs ligadas.",
+        "❄️ Não sobrecarregue a geladeira com alimentos quentes.",
+        "🕒 Evite usar eletrodomésticos em horários de pico de energia (18h às 21h).",
+        "🔋 Compre lâmpadas e eletrodomésticos eficientes gradualmente.",
+        "🏠 Aproveite a ventilação natural para evitar ventiladores ou ar-condicionado."
+      ],
+      "Bom": [
+        "🚪 Verifique as borrachas de vedação da geladeira para evitar desperdício.",
+        "📋 Planeje suas contas mensais para incluir melhorias em eficiência energética.",
+        "📦 Troque aparelhos antigos por novos com menor consumo, quando possível.",
+        "🌬️ Utilize ventiladores de baixo consumo e em horários mais frescos.",
+        "⚡ Considere trocar chuveiros elétricos por modelos mais econômicos."
+      ],
+      "Ótimo": [
+        "✅ Mantenha os hábitos de economia para continuar no caminho certo!",
+        "🤝 Ajude vizinhos e amigos a economizarem energia também.",
+        "🌍 Pense no impacto positivo que você já causou no meio ambiente.",
+        "🔄 Reaproveite materiais e reduza o consumo desnecessário em casa.",
+        "🛠️ Programe revisões periódicas no sistema elétrico para evitar gastos ocultos."
+      ]
+    },
+    "comercial": {
+      "Péssimo": [
+        "💡 Substitua lâmpadas comuns por LEDs em todo o espaço comercial.",
+        "❌ Evite deixar ar-condicionado ligado quando o local estiver vazio.",
+        "🔒 Desligue equipamentos como computadores fora do horário de funcionamento.",
+        "📋 Monitore horários de trabalho para evitar consumo fora do expediente.",
+        "🌡️ Ajuste a temperatura do ar-condicionado para 23°C."
+      ],
+      "Ruim": [
+        "📋 Realize auditorias energéticas para identificar desperdícios.",
+        "🚪 Automatize a iluminação com sensores de presença em locais pouco usados.",
+        "🔧 Faça manutenção regular em equipamentos eletrônicos.",
+        "🔌 Desligue monitores e estações de trabalho inativas.",
+        "💻 Centralize servidores para reduzir o número de dispositivos ativos."
+      ],
+      "Médio": [
+        "📉 Utilize aparelhos com menor consumo energético.",
+        "💻 Consolide servidores e otimizações em equipamentos de TI.",
+        "🌳 Adote práticas sustentáveis como redução do uso de papel.",
+        "⚡ Realize treinamentos de economia para os funcionários.",
+        "🕔 Programe operações intensivas fora do horário de pico."
+      ],
+      "Bom": [
+        "🏭 Considere energia renovável, como painéis solares.",
+        "📊 Monitore seu consumo com relatórios detalhados.",
+        "🔄 Reduza a carga de pico deslocando atividades não essenciais.",
+        "💡 Instale iluminação natural para reduzir custos.",
+        "🏠 Considere projetos de eficiência com consultores especializados."
+      ],
+      "Ótimo": [
+        "🌟 Invista em certificações de sustentabilidade para seu negócio.",
+        "🤝 Incentive clientes e funcionários a adotarem hábitos de economia.",
+        "💡 Continue aprimorando e mantendo práticas exemplares!",
+        "🔋 Participe de programas de crédito de carbono.",
+        "🌍 Seja líder em sustentabilidade no seu setor."
+      ]
+    },
+    "industrial": {
+      "Péssimo": [
+        "🏭 Realize manutenção preventiva em maquinário para evitar desperdícios.",
+        "🔧 Use motores com eficiência energética para grandes máquinas.",
+        "💡 Instale iluminação eficiente em galpões e áreas de trabalho.",
+        "⚙️ Desative máquinas inativas ao longo do dia.",
+        "🌡️ Controle a temperatura de equipamentos e ambientes para evitar desperdícios."
+      ],
+      "Ruim": [
+        "📋 Adote sistemas de gestão de energia para monitorar consumo.",
+        "🌡️ Regule a temperatura de equipamentos industriais.",
+        "🕒 Evite operações intensivas durante horários de pico.",
+        "🔄 Use sistemas de recuperação de calor em processos industriais.",
+        "📊 Analise relatórios de consumo mensalmente para identificar padrões."
+      ],
+      "Médio": [
+        "⚡ Utilize capacitores para melhorar o fator de potência.",
+        "🌞 Considere energia renovável para parte da operação.",
+        "🛠️ Treine funcionários para práticas mais eficientes no uso de energia.",
+        "📊 Monitore o uso de energia em tempo real.",
+        "🌐 Invista em automação para reduzir desperdícios."
+      ],
+      "Bom": [
+        "🏢 Reavalie processos industriais para eliminar desperdícios.",
+        "🔄 Reaproveite calor ou energia de processos industriais.",
+        "✅ Realize benchmarks com empresas mais eficientes.",
+        "⚡ Utilize motores de alta eficiência para substituir os antigos.",
+        "🧾 Invista em relatórios automáticos de consumo energético."
+      ],
+      "Ótimo": [
+        "🌍 Seja pioneiro em sustentabilidade com energia limpa!",
+        "📊 Continue monitorando e ajustando seus sistemas.",
+        "🤝 Participe de iniciativas para conscientização ambiental no setor.",
+        "🛠️ Crie um comitê interno para práticas de eficiência energética.",
+        "🔋 Torne-se referência em economia energética no seu ramo!"
+      ]
+    }
+  }
+  
