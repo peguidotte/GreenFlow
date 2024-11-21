@@ -11,7 +11,7 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [initialTab, setInitialTab] = useState("login");
-  const { isLoggedIn, toggleLogin } = useContext(AuthContext);
+  const { isLoggedIn } = useContext(AuthContext);
 
   const toggleOpen = () => {
     setIsOpen(!isOpen);
@@ -24,7 +24,7 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="fixed top-0 left-0 right-0 m-0 backdrop-blur-sm z-50 rounded-b-2xl" style={{ backgroundColor: "rgba(0, 0, 0, 0.2)" }}>
+      <div className="fixed top-0 left-0 right-0 m-0 backdrop-blur-sm z-50 rounded-b-sm" style={{ backgroundColor: "rgba(0, 0, 0, 0.1)" }}>
         <nav
           className={`p-2 lg:p-4 flex justify-between items-center ${
             isLoggedIn && "grid"
@@ -34,9 +34,9 @@ const Navbar = () => {
             <div className="col-start-1">
               <button onClick={toggleOpen} className="shadow-none">
                 {!isOpen ? (
-                  <RiMenuFill className="text-mid-green text-3xl shadow-none" />
+                  <RiMenuFill className="text-mid-green text-3xl shadow-none hover:text-dark-green" />
                 ) : (
-                  <RiMenu3Fill className="text-mid-green text-3xl shadow-none" />
+                  <RiMenu3Fill className="text-mid-green text-3xl shadow-none hover:text-dark-green" />
                 )}
               </button>
             </div>
@@ -54,9 +54,11 @@ const Navbar = () => {
 
           {isLoggedIn ? (
             <div className="col-start-3 flex justify-end">
-              <button className="shadow-none" onClick={toggleLogin}>
-                <IoPerson className="text-mid-green text-3xl" />
-              </button>
+              <Link to="greenflow/account">
+                <button className="shadow-none">
+                  <IoPerson className="text-mid-green text-3xl hover:text-dark-green" />
+                </button>
+              </Link>
             </div>
           ) : (
             <div className="col-span-2 flex justify-end gap-1">
@@ -76,30 +78,30 @@ const Navbar = () => {
           )}
         </nav>
         {isOpen && (
-          <div className=" text-mid-green flex justify-between gap-4 mx-2 p-4 ">
+          <div className=" text-mid-green flex justify-around gap-4 mx-2 p-4 ">
             <Link
-              to="/greenflow"
+              to="greenflow/home"
               className="flex flex-col items-center hover:text-dark-green"
             >
               <RiHomeFill className="text-2xl" />
               Home
             </Link>
             <Link
-              to="/greenflow"
+              to="greenflow/dashboards"
               className="flex flex-col items-center hover:text-dark-green"
             >
               <RiDashboardFill className="text-2xl" />
               Dashboards
             </Link>
             <Link
-              to="/greenflow"
+              to="greenflow/dicas"
               className="flex flex-col items-center hover:text-dark-green"
             >
               <MdTipsAndUpdates className="text-2xl" />
               Dicas
             </Link>
             <Link
-              to="/sobre"
+              to="greenflow/tracker"
               className="flex flex-col items-center hover:text-dark-green"
             >
               <RiMapPinTimeFill className="text-2xl" />

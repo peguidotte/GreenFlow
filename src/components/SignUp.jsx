@@ -1,19 +1,44 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import PropTypes from "prop-types";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
 import "../index.css";
 
 const SignUp = ({ isOpen, toggleModal, initialTab }) => {
+  const { toggleLogin } = useContext(AuthContext);
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState(initialTab);
   const [formData, setFormData] = useState({
+    name: "",
     consumingProfile: "",
     state: "",
+    email: "",
+    password: "",
+  });
+  const [loginData, setLoginData] = useState({
+    email: "",
+    password: "",
   });
   const [states, setStates] = useState([]);
   const [formDataExists, setFormDataExists] = useState(false);
+  const [errors, setErrors] = useState({});
+  const [loginError, setLoginError] = useState("");
 
   useEffect(() => {
     if (isOpen) {
       setActiveTab(initialTab);
+      const storedFormData = localStorage.getItem("formData");
+      if (storedFormData) {
+        const parsedFormData = JSON.parse(storedFormData);
+        setFormDataExists(true);
+        setFormData((prevFormData) => ({
+          ...prevFormData,
+          consumingProfile: parsedFormData.consumingProfile,
+          state: parsedFormData.state,
+        }));
+      } else {
+        setFormDataExists(false);
+      }
     }
   }, [isOpen, initialTab]);
 
@@ -31,13 +56,6 @@ const SignUp = ({ isOpen, toggleModal, initialTab }) => {
     fetchStates();
   }, []);
 
-  useEffect(() => {
-    const storedFormData = localStorage.getItem("formData");
-    if (storedFormData) {
-      setFormDataExists(true);
-    }
-  }, []);
-
   const handleTabChange = (tab) => {
     setActiveTab(tab);
   };
@@ -50,12 +68,65 @@ const SignUp = ({ isOpen, toggleModal, initialTab }) => {
     }));
   };
 
+  const handleLoginChange = (e) => {
+    const { name, value } = e.target;
+    setLoginData((prevLoginData) => ({
+      ...prevLoginData,
+      [name]: value,
+    }));
+  };
+
+  const validateForm = () => {
+    const newErrors = {};
+
+    if (formData.name.length < 2) {
+      newErrors.name = "O nome deve ter no mínimo 2 caracteres.";
+    }
+    if (formData.consumingProfile === "") {
+      newErrors.consumingProfile = "Selecione seu perfil de consumo.";
+    }
+    if (formData.state === "") {
+      newErrors.state = "Selecione seu estado.";
+    }
+    if (!formData.email.includes("@") || !formData.email.includes(".")) {
+      newErrors.email = "Email inválido.";
+    }
+    if (formData.password.length < 3) {
+      newErrors.password = "A senha deve ter no mínimo 3 caracteres.";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Salvar os dados no localStorage
-    localStorage.setItem("formData", JSON.stringify(formData));
-    setFormDataExists(true);
-    toggleModal();
+    if (validateForm()) {
+      const usersData = JSON.parse(localStorage.getItem("usersData")) || {};
+      const userId = `user${Object.keys(usersData).length + 1}`;
+      usersData[userId] = formData;
+      localStorage.setItem("usersData", JSON.stringify(usersData));
+      setFormDataExists(true);
+      toggleLogin();
+      navigate("/greenflow");
+      toggleModal();
+    }
+  };
+
+  const handleLoginSubmit = (e) => {
+    e.preventDefault();
+    const usersData = JSON.parse(localStorage.getItem("usersData")) || {};
+    const user = Object.values(usersData).find(
+      (user) => user.email === loginData.email && user.password === loginData.password
+    );
+    if (user) {
+      setLoginError("");
+      toggleLogin();
+      navigate("/greenflow");
+      toggleModal();
+    } else {
+      setLoginError("Email ou senha incorretos.");
+    }
   };
 
   return (
@@ -64,14 +135,14 @@ const SignUp = ({ isOpen, toggleModal, initialTab }) => {
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-70 z-50">
           <div className="bg-white p-8 rounded-xl shadow-xl w-11/12 max-w-md">
             <span
-              className="text-black text-2xl cursor-pointer float-right"
+              className="text-black text-2xl cursor-pointer float-right relative -top-6 -right-5"
               onClick={toggleModal}
             >
               &times;
             </span>
             <div className="flex justify-center mb-4 gap-3">
               <button
-                className={`w-2/5 px-4 py-2 rounded-s-lg ${activeTab === "login" ? "scale-110" : "bg-gray-200 text-black"}`}
+                className={`w-[45%] text-xs sm:text-base px-4 py-2 rounded-s-lg ${activeTab === "login" ? "scale-110" : "bg-gray-200 text-black"}`}
                 style={{
                   boxShadow: activeTab === "login" ? "-4px 4px 4px rgba(133, 210, 44)" : "-4px 4px 4px rgba(0,0,0,0.3)",
                 }}
@@ -80,7 +151,7 @@ const SignUp = ({ isOpen, toggleModal, initialTab }) => {
                 Login
               </button>
               <button
-                className={`w-2/5 px-4 py-2 rounded-e-lg ${activeTab === "signup" ? "scale-110" : "bg-gray-200 text-black"}`}
+                className={`w-[45%] text-xs sm:text-base px-4 py-2 rounded-e-lg ${activeTab === "signup" ? "scale-110" : "bg-gray-200 text-black"}`}
                 style={{
                   boxShadow: activeTab === "signup" ? "4px 4px 4px rgba(60, 133, 44)" : "4px 4px 4px rgba(0,0,0,0.3)",
                 }}
@@ -91,7 +162,7 @@ const SignUp = ({ isOpen, toggleModal, initialTab }) => {
             </div>
             {activeTab === "login" && (
               <div className="form-container mb-4">
-                <form>
+                <form onSubmit={handleLoginSubmit}>
                   <p className="text-sm text-gray text-center">
                     Não use cadastros reais.
                   </p>
@@ -101,6 +172,9 @@ const SignUp = ({ isOpen, toggleModal, initialTab }) => {
                     type="email"
                     aria-label="Email"
                     placeholder="Email / greenflow@org.com.br"
+                    name="email"
+                    value={loginData.email}
+                    onChange={handleLoginChange}
                     required
                   />
                   <input
@@ -110,7 +184,11 @@ const SignUp = ({ isOpen, toggleModal, initialTab }) => {
                     required
                     aria-label="password"
                     placeholder="Senha / green!flow1"
+                    name="password"
+                    value={loginData.password}
+                    onChange={handleLoginChange}
                   />
+                  {loginError && <p className="text-red-500 text-xs">{loginError}</p>}
                   <button
                     className="bg-dark-green text-white p-2 rounded-2xl w-full hover:bg-mid-green duration-300"
                     style={{ boxShadow: "none" }}
@@ -133,30 +211,18 @@ const SignUp = ({ isOpen, toggleModal, initialTab }) => {
                     type="text"
                     aria-label="Name"
                     placeholder="Nome / Green Flow"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
                     required
                   />
-                  <input
-                    aria-label="Email"
-                    placeholder="Email / greenflow@org.com.br"
-                    className=" p-2 mb-1 w-full"
-                    style={{ boxShadow: "4px 4px 4px #3C8500" }}
-                    type="email"
-                    required
-                  />
-                  <input
-                    aria-label="password"
-                    placeholder="Senha / green!flow1"
-                    style={{ boxShadow: "4px 4px 4px #3C8500" }}
-                    className=" p-2 mb-1 w-full"
-                    type="password"
-                    required
-                  />
+                  {errors.name && <p className="text-red-500 text-xs">{errors.name}</p>}
                   {!formDataExists && (
                     <>
-                      <label className="block mb-2">Perfil de Consumo:</label>
                       <select
                         aria-label="Selecione seu perfil de consumo"
-                        className={`w-full p-2 mb-4 ${formData.consumingProfile === "" ? "text-gray" : "text-black"}`}
+                        className={`w-full p-2 mb-1 ${formData.consumingProfile === "" ? "text-gray" : "text-black"}`}
+                        style={{ boxShadow: "4px 4px 4px #3C8500" }}
                         name="consumingProfile"
                         value={formData.consumingProfile}
                         onChange={handleChange}
@@ -178,17 +244,18 @@ const SignUp = ({ isOpen, toggleModal, initialTab }) => {
                           Residencial baixa renda (com desconto)
                         </option>
                       </select>
-                      <label className="block mb-2">Estado:</label>
+                      {errors.consumingProfile && <p className="text-red-500 text-xs">{errors.consumingProfile}</p>}
                       <select
-                        aria-label="Selecione seu estado"
-                        className="w-full p-2 mb-4"
+                        aria-label="Selecione um estado"
                         name="state"
+                        className={`${formData.state === "" ? "text-gray" : "text-black"}`}
+                        style={{ boxShadow: "4px 4px 4px #3C8500" }}
                         value={formData.state}
                         onChange={handleChange}
                         required
                       >
                         <option value="" className="text-gray">
-                          Selecione seu estado
+                          Selecione um estado
                         </option>
                         {states.map((state) => (
                           <option key={state.id} value={state.nome} className="text-black">
@@ -196,11 +263,36 @@ const SignUp = ({ isOpen, toggleModal, initialTab }) => {
                           </option>
                         ))}
                       </select>
+                      {errors.state && <p className="text-red-500 text-xs">{errors.state}</p>}
                     </>
                   )}
+                  <input
+                    aria-label="Email"
+                    placeholder="Email / greenflow@org.com.br"
+                    className=" p-2 mb-1 w-full"
+                    style={{ boxShadow: "4px 4px 4px #3C8500" }}
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                  />
+                  {errors.email && <p className="text-red-500 text-xs">{errors.email}</p>}
+                  <input
+                    aria-label="password"
+                    placeholder="Senha / green!flow1"
+                    style={{ boxShadow: "4px 4px 4px #3C8500" }}
+                    className=" p-2 mb-1 w-full"
+                    type="password"
+                    name="password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    required
+                  />
+                  {errors.password && <p className="text-red-500 text-xs">{errors.password}</p>}
                   <button
                     className="bg-mid-green text-white p-2 rounded-2xl w-full hover:bg-dark-green duration-300"
-                    style={{boxShadow: "none"}}
+                    style={{ boxShadow: "none" }}
                     type="submit"
                   >
                     Sign Up
