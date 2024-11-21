@@ -4,7 +4,7 @@ import tips from "../data/tips.json";
 import ConsumptionDisplay from "./ConsumptionDisplay.jsx";
 import TipsDisplay from "./TipsDisplay";
 
-const FeedbackCards = ({ formSubmitted }) => {
+const FeedbackCards = ({ formSubmitted, tipsDisplay = 3 }) => {
   const [essentialsData, setEssentialsData] = useState([]);
   const [statesData, setStatesData] = useState(null);
   const [consumingProfile, setConsumingProfile] = useState(null);
@@ -195,10 +195,10 @@ const FeedbackCards = ({ formSubmitted }) => {
     if (dicas.length > 0) {
       const dicasAleatorias = [...dicas]
         .sort(() => Math.random() - 0.5)
-        .slice(0, 3);
+        .slice(0, tipsDisplay);
       setRandomDicas(dicasAleatorias);
     }
-  }, [dicas]);
+  }, [dicas, tipsDisplay]);
 
   return (
     <section className="w-10/12 lg:w-9/12">
@@ -210,7 +210,7 @@ const FeedbackCards = ({ formSubmitted }) => {
             consumingLevelStateCountry={consumingLevelStateCountry}
             colorLevelStateCountry={colorLevelStateCountry}
           />
-          <TipsDisplay randomDicas={randomDicas} />
+          {tipsDisplay > 0 && <TipsDisplay randomDicas={randomDicas} />}
         </div>
       ) : (
         <p className="shadow-md shadow-mid-green px-4 py-3 rounded-2xl font-medium sm:text-lg sm:py-4 lg:text-xl lg:py-6 hover:scale-105 duration-300">
@@ -223,7 +223,8 @@ const FeedbackCards = ({ formSubmitted }) => {
 };
 
 FeedbackCards.propTypes = {
-  formSubmitted: PropTypes.bool.isRequired,
+  formSubmitted: PropTypes.bool,
+  tipsDisplay: PropTypes.number,
 };
 
 export default FeedbackCards;

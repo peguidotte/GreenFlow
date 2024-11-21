@@ -38,7 +38,7 @@ const EnergyForm = ({ setFormSubmitted }) => {
 
   const handleKeyDown = (e) => {
     if (e.key === "-" || e.key === "e" || e.key === "+") {
-      e.preventDefault(); // Impede a entrada de caracteres que resultariam em valores negativos
+      e.preventDefault(); 
     }
   };
 
@@ -171,7 +171,7 @@ const EnergyForm = ({ setFormSubmitted }) => {
 };
 
 EnergyForm.propTypes = {
-  setFormSubmitted: PropTypes.func.isRequired,
+  setFormSubmitted: PropTypes.func,
 };
 
 export default EnergyForm;
