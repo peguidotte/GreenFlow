@@ -4,7 +4,7 @@ import tips from "../data/tips.json";
 import ConsumptionDisplay from "./ConsumptionDisplay.jsx";
 import TipsDisplay from "./TipsDisplay";
 
-const FeedbackCards = ({ formSubmitted, tipsDisplay = 3 }) => {
+const FeedbackCards = ({ formSubmitted, tipsDisplay = 3, consumptionDisplay = true }) => {
   const [essentialsData, setEssentialsData] = useState([]);
   const [statesData, setStatesData] = useState(null);
   const [consumingProfile, setConsumingProfile] = useState(null);
@@ -173,7 +173,6 @@ const FeedbackCards = ({ formSubmitted, tipsDisplay = 3 }) => {
       localStorage.setItem("consumptionData", JSON.stringify(consumptionData));
     }
 
-    // Acessando as dicas dinâmicas
     if (consumingProfile && consumingLevelState) {
       const dicasParaPerfil = tips[consumingProfile][consumingLevelState];
       setDicas(dicasParaPerfil); 
@@ -204,12 +203,12 @@ const FeedbackCards = ({ formSubmitted, tipsDisplay = 3 }) => {
     <section className="w-10/12 lg:w-9/12">
       {statesData && state && statesData[state] ? (
         <div className="flex flex-col gap-10">
-          <ConsumptionDisplay
+          {consumptionDisplay && <ConsumptionDisplay
             consumingLevelState={consumingLevelState}
             colorLevelState={colorLevelState}
             consumingLevelStateCountry={consumingLevelStateCountry}
             colorLevelStateCountry={colorLevelStateCountry}
-          />
+          />}
           {tipsDisplay > 0 && <TipsDisplay randomDicas={randomDicas} />}
         </div>
       ) : (
@@ -225,6 +224,7 @@ const FeedbackCards = ({ formSubmitted, tipsDisplay = 3 }) => {
 FeedbackCards.propTypes = {
   formSubmitted: PropTypes.bool,
   tipsDisplay: PropTypes.number,
+  consumptionDisplay: PropTypes.bool,
 };
 
 export default FeedbackCards;

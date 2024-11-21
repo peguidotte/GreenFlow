@@ -15,103 +15,54 @@ import {
 } from "recharts";
 
 const Graphs = () => {
-  const [apiData, setApiData] = useState([]);
-  const [userData, setUserData] = useState(null);
-  const [avgConsumption, setAvgConsumption] = useState({
-    state: 0,
-    general: 0,
-  });
-  const [tariff, setTariff] = useState(0);
-  const [energyConsumption, setEnergyConsumption] = useState(0);
-  const [price, setPrice] = useState(0);
-
   // Estados para os dados dos gráficos
   const [chartDataState, setChartDataState] = useState([]);
   const [chartDataCountry, setChartDataCountry] = useState([]);
   const [charDataGeneral, setCharDataGeneral] = useState([]);
-  const [chartExpectedSavings, setChartExpectedSavings] = useState([]);
   const [chartExpectedSavingsPrice, setChartExpectedSavingsPrice] = useState([]);
-  const [chartExpectedSavingsAll, setChartExpectedSavingsAll] = useState([]);
+  const [chartExpectedSavingsEnergy, setChartExpectedSavingsEnergy] = useState([]);
 
   useEffect(() => {
-    // Buscar dados da API
-    fetch(
-      "https://673cd4af96b8dcd5f3fbdb27.mockapi.io/api/v1/consumptionData"
-    )
+    // Buscar dados da API e preparar os dados para os gráficos
+    fetch("https://673cd4af96b8dcd5f3fbdb27.mockapi.io/api/v1/consumptionData")
       .then((response) => response.json())
       .then((data) => {
-        console.log("API Data:", data);
-        setApiData(data);
-
         // Dados do usuário
         const storedUserData = JSON.parse(localStorage.getItem("usersData"));
-        console.log("Stored User Data:", storedUserData);
-        let user = null;
         let avgConsumptionState = 0;
         let avgConsumptionGeneral = 0;
-        let tariffValue = 0;
+        let energyCons = 0;
+        let priceValue = 0;
 
         if (storedUserData) {
           const userId = Object.keys(storedUserData)[0];
-          user = storedUserData[userId];
-          setUserData(user);
-
+          const user = storedUserData[userId];
           const { consumingProfile, state } = user;
-          console.log("Consuming Profile:", consumingProfile);
-          console.log("State:", state);
 
           if (data[1] && data[1].states && data[1].states[state]) {
             if (consumingProfile === "residencialComum") {
               avgConsumptionState = data[1].states[state].avgResidential;
               avgConsumptionGeneral = data[0].generalAvgResidential;
-              tariffValue = data[0].tariffAvgResidential;
             } else if (consumingProfile === "residencialBaixaRenda") {
               avgConsumptionState = data[1].states[state].avgResidential;
               avgConsumptionGeneral = data[0].generalAvgResidential;
-              tariffValue = data[0].tariffAvgResidentialLowIncome;
             } else if (consumingProfile === "comercial") {
               avgConsumptionState = data[1].states[state].avgCommercial;
               avgConsumptionGeneral = data[0].generalAvgCommercial;
-              tariffValue = data[0].tariffAvgCommercial;
             } else if (consumingProfile === "industrial") {
               avgConsumptionState = data[1].states[state].avgIndustrial;
               avgConsumptionGeneral = data[0].generalAvgIndustrial;
-              tariffValue = data[0].tariffAvgIndustrial;
             }
-
-            setAvgConsumption({
-              state: avgConsumptionState,
-              general: avgConsumptionGeneral,
-            });
-            setTariff(tariffValue);
-
-            console.log("Average Consumption (State):", avgConsumptionState);
-            console.log(
-              "Average Consumption (General):",
-              avgConsumptionGeneral
-            );
-            console.log("Tariff:", tariffValue);
           } else {
-            console.error("State data not found for:", state);
+            console.error("Dados do estado não encontrados para:", state);
           }
         }
 
         // Dados de consumo do usuário
-        const storedConsumptionData = JSON.parse(
-          localStorage.getItem("consumptionData")
-        );
-        console.log("Stored Consumption Data:", storedConsumptionData);
-        let energyCons = 0;
-        let priceValue = 0;
-
+        const storedConsumptionData = JSON.parse(localStorage.getItem("consumptionData"));
         if (storedConsumptionData) {
           energyCons = storedConsumptionData.energyConsumption;
           priceValue = storedConsumptionData.price;
-          setEnergyConsumption(energyCons);
-          setPrice(priceValue);
-
-          console.log("Energy Consumption:", energyCons);
-          console.log("Price:", priceValue);
         }
 
         // Preparar os dados para os gráficos
@@ -133,40 +84,55 @@ const Graphs = () => {
 
         setCharDataGeneral([
           { name: "País", value: avgConsumptionGeneral },
-          { name: user ? user.name : "Usuário", value: energyCons },
-          { name: user ? user.state : "Estado", value: avgConsumptionState },
+          { name: "Usuário", value: energyCons },
+          { name: "Estado", value: avgConsumptionState },
         ]);
 
-        setChartExpectedSavings([
-          {
-            name: "Economia esperada para o mês",
-            avgConsumption: energyCons,
-            userConsumption: energyCons / 1.4,
-          },
-        ]);
+        // Verificar se os dados já estão no localStorage
+        const storedSavingsPriceData = JSON.parse(localStorage.getItem("savingsPriceData"));
+        const storedSavingsEnergyData = JSON.parse(localStorage.getItem("savingsEnergyData"));
 
-        setChartExpectedSavingsPrice([
-          {
-            name: "Economia esperada para o mês",
-            avgConsumption: priceValue,
-            userConsumption: priceValue / 1.4,
-          },
-        ]);
+        if (storedSavingsPriceData && storedSavingsEnergyData) {
+          setChartExpectedSavingsPrice(storedSavingsPriceData);
+          setChartExpectedSavingsEnergy(storedSavingsEnergyData);
+        } else {
+          // Gerar dados para "Economia de Dinheiro Esperada para o Ano"
+          const savingsPriceData = [];
+          let currentPrice = priceValue;
+          for (let month = 1; month <= 12; month++) {
+            if (month === 1) {
+              savingsPriceData.push({ month, price: currentPrice });
+            } else {
+              const randMultiplier = Math.random() * (1.0 - 1.1) + 1.08;
+              currentPrice = currentPrice / randMultiplier;
+              savingsPriceData.push({ month, price: currentPrice });
+            }
+          }
+          setChartExpectedSavingsPrice(savingsPriceData);
+          localStorage.setItem("savingsPriceData", JSON.stringify(savingsPriceData));
 
-        setChartExpectedSavingsAll([
-          {
-            name: "Economia esperada para o mês",
-            avgConsumption: avgConsumptionGeneral / 1.1,
-            avgConsumptionState: avgConsumptionState / 1.2,
-            userConsumption: energyCons / 1.4,
-          },
-        ]);
+          // Gerar dados para "Economia de Energia Esperada para o Ano"
+          const savingsEnergyData = [];
+          let currentEnergy = energyCons;
+          for (let month = 1; month <= 12; month++) {
+            if (month === 1) {
+              savingsEnergyData.push({ month, energy: currentEnergy });
+            } else {
+              const randMultiplier = Math.random() * (1.0 - 1.1) + 1.08;
+              currentEnergy = currentEnergy / randMultiplier;
+              savingsEnergyData.push({ month, energy: currentEnergy });
+            }
+          }
+          setChartExpectedSavingsEnergy(savingsEnergyData);
+          localStorage.setItem("savingsEnergyData", JSON.stringify(savingsEnergyData));
+        }
       })
-      .catch((error) => console.error("Error fetching API data:", error));
+      .catch((error) => console.error("Erro ao buscar dados da API:", error));
   }, []);
 
   return (
     <div>
+      {/* Gráfico Comparação Estadual */}
       <h2>Comparação Estadual</h2>
       <ResponsiveContainer width="100%" height={300}>
         <BarChart
@@ -196,6 +162,7 @@ const Graphs = () => {
         </BarChart>
       </ResponsiveContainer>
 
+      {/* Gráfico Comparação Nacional */}
       <h2>Comparação Nacional</h2>
       <ResponsiveContainer width="100%" height={300}>
         <BarChart
@@ -225,6 +192,7 @@ const Graphs = () => {
         </BarChart>
       </ResponsiveContainer>
 
+      {/* Gráfico Distribuição do Consumo */}
       <h2>Distribuição do Consumo</h2>
       <ResponsiveContainer width="100%" height={300}>
         <PieChart>
@@ -242,10 +210,11 @@ const Graphs = () => {
         </PieChart>
       </ResponsiveContainer>
 
-      <h2>Economia Esperada para o Mês</h2>
+      {/* Gráfico Economia de Dinheiro Esperada para o Ano */}
+      <h2>Economia de Dinheiro Esperada para o Ano</h2>
       <ResponsiveContainer width="100%" height={300}>
         <AreaChart
-          data={chartExpectedSavings}
+          data={chartExpectedSavingsPrice}
           margin={{
             top: 10,
             right: 30,
@@ -254,15 +223,41 @@ const Graphs = () => {
           }}
         >
           <CartesianGrid strokeDasharray="2" />
-          <XAxis dataKey="name" />
+          <XAxis dataKey="month" />
           <YAxis />
           <Tooltip />
           <Area
             type="monotone"
-            dataKey="userConsumption"
+            dataKey="price"
             stroke="#8884d8"
             fill="#8884d8"
-            name="Economia Esperada"
+            name="Economia de Dinheiro"
+          />
+        </AreaChart>
+      </ResponsiveContainer>
+
+      {/* Gráfico Economia de Energia Esperada para o Ano */}
+      <h2>Economia de Energia Esperada para o Ano</h2>
+      <ResponsiveContainer width="100%" height={300}>
+        <AreaChart
+          data={chartExpectedSavingsEnergy}
+          margin={{
+            top: 10,
+            right: 30,
+            left: 0,
+            bottom: 0,
+          }}
+        >
+          <CartesianGrid strokeDasharray="2" />
+          <XAxis dataKey="month" />
+          <YAxis />
+          <Tooltip />
+          <Area
+            type="monotone"
+            dataKey="energy"
+            stroke="#82ca9d"
+            fill="#82ca9d"
+            name="Economia de Energia"
           />
         </AreaChart>
       </ResponsiveContainer>

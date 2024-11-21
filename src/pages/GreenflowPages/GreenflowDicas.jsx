@@ -1,10 +1,11 @@
+import FeedbackCards from "../../components/Feedback";
+
 function GreenflowDicas() {
-    return (
-      <div>
-        <h2 className="text-2xl font-bold mb-4">Dicas</h2>
-        {/* Dicas baseadas no consumo */}
-      </div>
-    );
-  }
-  
-  export default GreenflowDicas;
+  return (
+    <div className="flex items-center justify-center mt-16">
+      <FeedbackCards tipsDisplay={10} consumptionDisplay={false} />
+    </div>
+  );
+}
+
+export default GreenflowDicas;

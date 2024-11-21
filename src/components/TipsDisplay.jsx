@@ -14,7 +14,7 @@ const TipsDisplay = ({ randomDicas }) => {
             data-aos="fade-up"
             data-aos-anchor-placement="top-bottom"
           >
-            <h2 className="shadow-md shadow-mid-green px-4 py-3 rounded-2xl font-medium sm:text-lg sm:py-4 lg:text-xl lg:py-6 hover:scale-105 duration-300">
+            <h2 className="shadow-md bg-white shadow-mid-green px-4 py-3 rounded-2xl font-medium sm:text-lg sm:py-4 lg:text-xl lg:py-6 hover:scale-105 duration-300">
               {dica}
             </h2>
           </div>
