@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import tips from "../data/tips.json";
-import ConsumptionDisplay from "./ConsumptionDisplay";
+import ConsumptionDisplay from "./ConsumptionDisplay.jsx";
 import TipsDisplay from "./TipsDisplay";
 
 const FeedbackCards = ({ formSubmitted }) => {

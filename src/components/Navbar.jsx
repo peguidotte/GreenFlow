@@ -1,68 +1,75 @@
-import { RiMenuFill } from "react-icons/ri";
-import { RiMenu3Fill } from "react-icons/ri";
-import { RiHomeFill } from "react-icons/ri";
-import { RiDashboardFill } from "react-icons/ri";
-import { MdTipsAndUpdates } from "react-icons/md";
-import { RiMapPinTimeFill } from "react-icons/ri";
+import { RiMenuFill, RiMenu3Fill, RiHomeFill, RiDashboardFill, RiMapPinTimeFill } from "react-icons/ri";
 import { IoPerson } from "react-icons/io5";
-import { useState } from "react";
+import { MdTipsAndUpdates } from "react-icons/md";
+import { useState, useContext } from "react";
 import { Link } from "react-router-dom";
+import SignUp from "./SignUp";
+import { AuthContext } from "../context/AuthContext";
 import logo from "../assets/logo_green_flow.svg";
-
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [isLogged, setIsLogged] = useState(false);
-
-  const handleLogin = () => {
-    setIsLogged(!isLogged);
-};
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [initialTab, setInitialTab] = useState("login");
+  const { isLoggedIn, toggleLogin } = useContext(AuthContext);
 
   const toggleOpen = () => {
     setIsOpen(!isOpen);
-    console.log(isOpen);
   };
 
-
+  const toggleModal = (tab) => {
+    setInitialTab(tab);
+    setIsModalOpen(true);
+  };
 
   return (
     <>
-      <div className="fixed top-0 left-0 right-0 m-0 backdrop-blur-sm z-50">
+      <div className="fixed top-0 left-0 right-0 m-0 backdrop-blur-sm z-50 rounded-b-2xl" style={{ backgroundColor: "rgba(0, 0, 0, 0.2)" }}>
         <nav
-          className={`p-2 flex justify-between items-center ${
-            isLogged && "grid"
+          className={`p-2 lg:p-4 flex justify-between items-center ${
+            isLoggedIn && "grid"
           } `}
         >
-          {isLogged && (
-            <button onClick={toggleOpen} className="col-start-1">
-              {!isOpen ? (
-                <RiMenuFill className="text-mid-green text-3xl" />
-              ) : (
-                <RiMenu3Fill className="text-mid-green text-3xl" />
-              )}
-            </button>
+          {isLoggedIn && (
+            <div className="col-start-1">
+              <button onClick={toggleOpen} className="shadow-none">
+                {!isOpen ? (
+                  <RiMenuFill className="text-mid-green text-3xl shadow-none" />
+                ) : (
+                  <RiMenu3Fill className="text-mid-green text-3xl shadow-none" />
+                )}
+              </button>
+            </div>
           )}
 
           <div
             className={`navbar-title flex justify-center ${
-              isLogged && "col-start-2"
+              isLoggedIn && "col-start-2"
             }`}
           >
-            <img src={logo} alt="GreenFlow" className="w-36" />
+            <Link to="/">
+              <img src={logo} alt="Logo" className="h-10" />
+            </Link>
           </div>
-          {isLogged ? (
-            <button
-              className="navbar-icon col-start-3 flex justify-end"
-              onClick={handleLogin}
-            >
-              <IoPerson className="text-mid-green text-3xl" />
-            </button>
+
+          {isLoggedIn ? (
+            <div className="col-start-3 flex justify-end">
+              <button className="shadow-none" onClick={toggleLogin}>
+                <IoPerson className="text-mid-green text-3xl" />
+              </button>
+            </div>
           ) : (
             <div className="col-span-2 flex justify-end gap-1">
-              <button onClick={handleLogin} className="bg-mid-green font-semibold text-sm text-white py-1 px-2 rounded-lg shadow-md hover:bg-dark-green">
+              <button
+                onClick={() => toggleModal("login")}
+                className="bg-mid-green font-semibold text-sm text-white py-1 px-2 rounded-lg shadow-md hover:bg-dark-green"
+              >
                 Login
               </button>
-              <button className="bg-white text-mid-green text-sm font-semibold py-1 px-2 rounded-lg shadow-md hover:text-dark-green">
+              <button
+                onClick={() => toggleModal("signup")}
+                className="bg-white text-mid-green text-sm font-semibold py-1 px-2 rounded-lg shadow-md hover:text-dark-green"
+              >
                 Cadastre-se
               </button>
             </div>
@@ -101,6 +108,7 @@ const Navbar = () => {
           </div>
         )}
       </div>
+      <SignUp isOpen={isModalOpen} toggleModal={() => setIsModalOpen(false)} initialTab={initialTab} />
     </>
   );
 };

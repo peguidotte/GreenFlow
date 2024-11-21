@@ -1,4 +1,6 @@
-
+import { useEffect, useContext } from 'react';
+import { AuthContext } from '../context/AuthContext';
+import { useNavigate } from "react-router-dom";
 import PropTypes from 'prop-types';
 
 const DashboardCard = ({ title, value, icon }) => {
@@ -10,7 +12,7 @@ const DashboardCard = ({ title, value, icon }) => {
                 <p className="text-gray-600">{value}</p>
             </div>
         </div>
-    )
+    );
 };
 
 DashboardCard.propTypes = {
@@ -20,6 +22,15 @@ DashboardCard.propTypes = {
 };
 
 function Greenflow() {
+    const navigate = useNavigate();
+    const { isLoggedIn } = useContext(AuthContext);
+
+    useEffect(() => {
+        if (!isLoggedIn) {
+            navigate("/");
+        }
+    }, [isLoggedIn, navigate]);
+
     return (
         <div className="p-8 bg-gray-100 min-h-screen">
             <h1 className="text-3xl font-bold mb-8">Dashboard</h1>
@@ -31,6 +42,6 @@ function Greenflow() {
             </div>
         </div>
     );
-};
+}
 
 export default Greenflow;

@@ -1,8 +1,6 @@
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import "./EnergyForm.css";
-import Aos from "aos";
-import "aos/dist/aos.css";
 
 const EnergyForm = ({ setFormSubmitted }) => {
   const [formData, setFormData] = useState({
@@ -11,10 +9,6 @@ const EnergyForm = ({ setFormSubmitted }) => {
     energyConsumption: "",
     state: "",
   });
-
-  useEffect(() => {
-    Aos.init({ duration: 1000, anchorPlacement: "top-bottom" });
-  }, []);
 
   const [states, setStates] = useState([]);
 
@@ -64,9 +58,7 @@ const EnergyForm = ({ setFormSubmitted }) => {
 
     const dataToSave = {
       ...formData,
-      peopleLiving: formData.peopleLiving
-        ? Number(formData.peopleLiving)
-        : null,
+      peopleLiving: formData.peopleLiving ? Number(formData.peopleLiving) : null,
       energyConsumption: Number(formData.energyConsumption),
     };
 
@@ -80,8 +72,6 @@ const EnergyForm = ({ setFormSubmitted }) => {
       <div>
         <select
           aria-label="Selecione seu perfil de consumo"
-          data-aos="fade-up"
-          data-aos-anchor-placement="top-bottom"
           className={`${
             formData.consumingProfile === "" ? "text-gray" : "text-black"
           }`}
@@ -118,8 +108,6 @@ const EnergyForm = ({ setFormSubmitted }) => {
           formData.consumingProfile === "residencialBaixaRenda") && (
           <div className="relative">
             <input
-              data-aos="fade-right"
-              data-aos-anchor-placement="top-bottom"
               aria-label="Digite o número de residentes"
               className="w-full people"
               type="number"
@@ -129,16 +117,13 @@ const EnergyForm = ({ setFormSubmitted }) => {
               onChange={handleChange}
               onKeyDown={handleKeyDown}
             />
-            <span className="absolute inset-y-0 right-0 flex items-center pr-3" data-aos="fade-right"
-          data-aos-anchor-placement="top-bottom">
+            <span className="absolute inset-y-0 right-0 flex items-center pr-3">
               Moradores
             </span>
           </div>
         )}
         <div className="relative">
           <input
-            data-aos="fade-up"
-            data-aos-anchor-placement="top-bottom"
             aria-label="Digite seu consumo de energia em KWh"
             placeholder="Consumo em KWh"
             type="number"
@@ -148,16 +133,13 @@ const EnergyForm = ({ setFormSubmitted }) => {
             onKeyDown={handleKeyDown}
             className="w-full pr-10 kwh"
           />
-          <span className="absolute inset-y-0 right-0 flex items-center pr-3" data-aos="fade-up"
-          data-aos-anchor-placement="top-bottom">
+          <span className="absolute inset-y-0 right-0 flex items-center pr-3">
             KWh
           </span>
         </div>
       </div>
       <div>
         <select
-          data-aos="fade-up"
-          data-aos-anchor-placement="top-bottom"
           aria-label="Selecione um estado"
           name="state"
           className={`${formData.state === "" ? "text-gray" : "text-black"}`}
@@ -174,10 +156,8 @@ const EnergyForm = ({ setFormSubmitted }) => {
           ))}
         </select>
       </div>
-      <div className="flex items-center justify-center" data-aos="fade-up"
-          data-aos-anchor-placement="top-bottom">
+      <div className="flex items-center justify-center">
         <button
-          
           type="submit"
           className="mt-3 bg-white py-1 px-7 rounded-[20px] font-bold text-dark-green duration-700
           border-2 border-white hover:bg-dark-green hover:text-white hover:border-dark-green

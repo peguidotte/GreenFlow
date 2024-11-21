@@ -1,19 +1,18 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import Aos from "aos";
 import EnergyForm from "../components/EnergyForm";
 import FeedbackCards from "../components/Feedback";
+import SignUp from "../components/SignUp";
+import { AuthContext } from "../context/AuthContext";
 import "aos/dist/aos.css";
 import "../index.css"
 
 function Home() {
   const navigate = useNavigate();
-  const isLoggedIn = localStorage.getItem("loggedIn") === "true";
+  const { isLoggedIn } = useContext(AuthContext);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
-
-  useEffect(() => {
-    Aos.init({ duration: 1000});
-  }, []);
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -21,13 +20,18 @@ function Home() {
     }
   }, [isLoggedIn, navigate]);
 
+  useEffect(() => {
+    Aos.init({ duration: 1000});
+  }, []);
+
+  const toggleModal = () => {
+    setIsModalOpen(!isModalOpen);
+  };
+
   function SignButton() {
     return (
       <button
-        onClick={() => {
-          localStorage.setItem("loggedIn", "true");
-          navigate("/greenflow");
-        }}
+        onClick={toggleModal}
         className="bg-mid-green text-white font-bold px-10 py-2 rounded-lg duration-700 border-mid-green border-2 hover:text-lg hover:bg-white hover:text-mid-green 
         sm:text-2xl sm:hover:text-3xl lg:text-3xl lg:hover:text-4xl"
       >
@@ -104,6 +108,7 @@ function Home() {
           </div>
         </div>
       </section>
+      <SignUp isOpen={isModalOpen} toggleModal={toggleModal} initialTab="signup" />
     </>
   );
 }
