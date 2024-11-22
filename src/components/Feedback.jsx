@@ -212,7 +212,7 @@ const FeedbackCards = ({ formSubmitted, tipsDisplay = 3, consumptionDisplay = tr
           {tipsDisplay > 0 && <TipsDisplay randomDicas={randomDicas} />}
         </div>
       ) : (
-        <p className="shadow-md shadow-mid-green px-4 py-3 rounded-2xl font-medium sm:text-lg sm:py-4 lg:text-xl lg:py-6 hover:scale-105 duration-300">
+        <p className="shadow-md bg-white shadow-mid-green px-4 py-3 rounded-2xl font-medium sm:text-lg sm:py-4 lg:text-xl lg:py-6 hover:scale-105 duration-300">
           Preencha o formulário rapidamente para descobrir como está o nível do
           seu consumo! As informações podem demorar alguns segundos para serem carregadas.
         </p>

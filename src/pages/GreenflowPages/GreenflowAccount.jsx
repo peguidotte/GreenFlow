@@ -56,7 +56,14 @@ function GreenflowAccount() {
     return (
       <div className="flex flex-col items-center text-white p-6">
         <h2 className="text-2xl font-bold mb-16">Conta</h2>
-        <p className="text-black">Caso as informações não estejam aparecendo, recarregue a página.</p>
+        <p className="text-black text-center">Certifique-se de preencher corretamente o formulário.
+          <br />Caso as informações não estejam aparecendo, recarregue a página.</p>
+          <button
+        onClick={handleLogout}
+        className="mt-8 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-2xl"
+      >
+        Sair
+      </button>
       </div>
     );
   }

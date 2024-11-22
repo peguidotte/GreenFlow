@@ -22,7 +22,7 @@ A **Green Flow** é uma plataforma web interativa e moderna que visa promover a 
 
 - **Sistema de Login e Cadastro**
   - Cadastro e autenticação segura para personalizar a experiência do usuário.
-  - **Context API** para gerenciamento de autenticação e dados do usuário.
+  - **Context** para gerenciamento de autenticação e dados do usuário.
 
 - **Dashboard Interativo**
   - Visualização em tempo real de gráficos, tabelas e comparativos utilizando **Recharts**.
@@ -43,7 +43,7 @@ A **Green Flow** é uma plataforma web interativa e moderna que visa promover a 
 ### Integrações
 
 - **API Externa**: Dados de consumo de energia e dicas são integrados a partir de uma API para garantir informações precisas e atualizadas.
-- **Context API**: Gerenciamento eficiente do estado global para login, autenticação e personalização de experiência.
+- **Context**: Gerenciamento eficiente do estado global para login, autenticação e personalização de experiência.
 
 ### Ferramentas de Desenvolvimento
 

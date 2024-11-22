@@ -15,7 +15,7 @@ import {
 function GreenflowHome() {
   const { userData, consumptionData } = useContext(UserContext);
   if (!consumptionData){
-    return <p>Carregando....</p>;
+    return <p className="text-center mt-10">Selecione o mesmo Estado e perfil de consumo do seu perfil.</p>;
   }
   const data = [
     {
@@ -35,7 +35,6 @@ function GreenflowHome() {
           Informações gerais sobre energia do mês passado.
         </p>
         <Feedback tipsDisplay={1} className="absolute" />
-        <p className="relative bottom-32 md:bottom-24 text-xs text-gray  ">dica do dia</p>
         <h2 className="text-2xl font-bold mt-20 text-dark-green text-center lg:text-4xl">
           Comparação de Consumo de Energia
         </h2>

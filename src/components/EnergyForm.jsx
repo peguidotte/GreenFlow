@@ -3,8 +3,14 @@ import PropTypes from "prop-types";
 import { UserContext } from "../context/UserContext";
 import "./EnergyForm.css";
 
-const EnergyForm = ({ setFormSubmitted }) => {
-  const { formData, setFormData, setConsumptionData } = useContext(UserContext); 
+const EnergyForm = ({
+  setFormSubmitted,
+  showConsumingProfile = true,
+  showPeopleLiving = true,
+  showEnergyConsumption = true,
+  showState = true,
+}) => {
+  const { formData, setFormData, setConsumptionData } = useContext(UserContext);
 
   const [formDataLocal, setFormDataLocal] = useState({
     consumingProfile: "",
@@ -55,17 +61,6 @@ const EnergyForm = ({ setFormSubmitted }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (
-      !formDataLocal.consumingProfile ||
-      !formDataLocal.energyConsumption ||
-      !formDataLocal.state ||
-      ((formDataLocal.consumingProfile === "residencialComum" ||
-        formDataLocal.consumingProfile === "residencialBaixaRenda") &&
-        !formDataLocal.peopleLiving)
-    ) {
-      alert("Por favor, preencha todos os campos.");
-      return;
-    }
 
     const dataToSave = {
       ...formDataLocal,
@@ -75,107 +70,145 @@ const EnergyForm = ({ setFormSubmitted }) => {
       energyConsumption: Number(formDataLocal.energyConsumption),
     };
 
-    localStorage.setItem("formData", JSON.stringify(dataToSave));
+    if (showConsumingProfile && !formDataLocal.consumingProfile) {
+      alert("Por favor, preencha o perfil de consumo.");
+      return;
+    }
 
-    setFormData(dataToSave);
+    if (showEnergyConsumption && !formDataLocal.energyConsumption) {
+      alert("Por favor, preencha o consumo de energia.");
+      return;
+    }
 
-    setConsumptionData({ energyConsumption: dataToSave.energyConsumption });
+    if (showPeopleLiving && !formDataLocal.peopleLiving && (formDataLocal.consumingProfile === "residencialComum" || formDataLocal.consumingProfile === "residencialBaixaRenda")) {
+      alert("Por favor, preencha o número de residentes.");
+      return;
+    }
+
+    if (showState && !formDataLocal.state) {
+      alert("Por favor, selecione um estado.");
+      return;
+    }
+
+    const dataToSaveFiltered = {
+      ...dataToSave,
+      consumingProfile: showConsumingProfile ? dataToSave.consumingProfile : undefined,
+      peopleLiving: showPeopleLiving ? dataToSave.peopleLiving : undefined,
+      energyConsumption: showEnergyConsumption ? dataToSave.energyConsumption : undefined,
+      state: showState ? dataToSave.state : undefined,
+    };
+
+    localStorage.setItem("formData", JSON.stringify(dataToSaveFiltered));
+
+    setFormData(dataToSaveFiltered);
+
+    if (showEnergyConsumption) {
+      setConsumptionData({ energyConsumption: dataToSave.energyConsumption });
+    }
 
     alert("Informações salvas com sucesso!");
-    setFormSubmitted((prev) => !prev); 
+    setFormSubmitted((prev) => !prev);
   };
 
   return (
     <form onSubmit={handleSubmit} className="text-xs sm:text-base">
-      <div>
-        <select
-          aria-label="Selecione seu perfil de consumo"
-          className={`${
-            formDataLocal.consumingProfile === "" ? "text-gray" : "text-black"
-          }`}
-          name="consumingProfile"
-          value={formDataLocal.consumingProfile}
-          onChange={handleChange}
-        >
-          <option value="" className="text-gray">
-            Selecione seu perfil de consumo
-          </option>
-          <option value="comercial" className="text-black">
-            Comercial
-          </option>
-          <option value="industrial" className="text-black">
-            Industrial
-          </option>
-          <option value="residencialComum" className="text-black">
-            Residencial comum
-          </option>
-          <option value="residencialBaixaRenda" className="text-black">
-            Residencial baixa renda (com desconto)
-          </option>
-        </select>
-      </div>
+      {showConsumingProfile && (
+        <div>
+          <select
+            aria-label="Selecione seu perfil de consumo"
+            className={`${
+              formDataLocal.consumingProfile === "" ? "text-gray" : "text-black"
+            }`}
+            name="consumingProfile"
+            value={formDataLocal.consumingProfile}
+            onChange={handleChange}
+          >
+            <option value="" className="text-gray">
+              Selecione seu perfil de consumo
+            </option>
+            <option value="comercial" className="text-black">
+              Comercial
+            </option>
+            <option value="industrial" className="text-black">
+              Industrial
+            </option>
+            <option value="residencialComum" className="text-black">
+              Residencial comum
+            </option>
+            <option value="residencialBaixaRenda" className="text-black">
+              Residencial baixa renda (com desconto)
+            </option>
+          </select>
+        </div>
+      )}
       <div
         className={`${
-          formDataLocal.consumingProfile === "residencialComum" ||
-          formDataLocal.consumingProfile === "residencialBaixaRenda"
+          showPeopleLiving &&
+          (formDataLocal.consumingProfile === "residencialComum" ||
+            formDataLocal.consumingProfile === "residencialBaixaRenda")
             ? "flex gap-3 items-center"
             : ""
         }`}
       >
-        {(formDataLocal.consumingProfile === "residencialComum" ||
-          formDataLocal.consumingProfile === "residencialBaixaRenda") && (
+        {showPeopleLiving &&
+          (formDataLocal.consumingProfile === "residencialComum" ||
+            formDataLocal.consumingProfile === "residencialBaixaRenda") && (
+            <div className="relative">
+              <input
+                aria-label="Digite o número de residentes"
+                className="w-full people"
+                type="number"
+                name="peopleLiving"
+                placeholder="Residentes"
+                value={formDataLocal.peopleLiving}
+                onChange={handleChange}
+                onKeyDown={handleKeyDown}
+              />
+              <span className="absolute inset-y-0 right-0 flex items-center pr-3">
+                Moradores
+              </span>
+            </div>
+          )}
+        {showEnergyConsumption && (
           <div className="relative">
             <input
-              aria-label="Digite o número de residentes"
-              className="w-full people"
+              aria-label="Digite seu consumo de energia em KWh"
+              placeholder="Consumo em KWh"
               type="number"
-              name="peopleLiving"
-              placeholder="Residentes"
-              value={formDataLocal.peopleLiving}
+              name="energyConsumption"
+              value={formDataLocal.energyConsumption}
               onChange={handleChange}
               onKeyDown={handleKeyDown}
+              className="w-full pr-10 kwh"
             />
             <span className="absolute inset-y-0 right-0 flex items-center pr-3">
-              Moradores
+              KWh
             </span>
           </div>
         )}
-        <div className="relative">
-          <input
-            aria-label="Digite seu consumo de energia em KWh"
-            placeholder="Consumo em KWh"
-            type="number"
-            name="energyConsumption"
-            value={formDataLocal.energyConsumption}
+      </div>
+      {showState && (
+        <div>
+          <select
+            aria-label="Selecione um estado"
+            name="state"
+            className={`${
+              formDataLocal.state === "" ? "text-gray" : "text-black"
+            }`}
+            value={formDataLocal.state}
             onChange={handleChange}
-            onKeyDown={handleKeyDown}
-            className="w-full pr-10 kwh"
-          />
-          <span className="absolute inset-y-0 right-0 flex items-center pr-3">
-            KWh
-          </span>
-        </div>
-      </div>
-      <div>
-        <select
-          aria-label="Selecione um estado"
-          name="state"
-          className={`${
-            formDataLocal.state === "" ? "text-gray" : "text-black"
-          }`}
-          value={formDataLocal.state}
-          onChange={handleChange}
-        >
-          <option value="" className="text-gray">
-            Selecione um estado
-          </option>
-          {states.map((state) => (
-            <option key={state.id} value={state.nome} className="text-black">
-              {state.nome}
+          >
+            <option value="" className="text-gray">
+              Selecione um estado
             </option>
-          ))}
-        </select>
-      </div>
+            {states.map((state) => (
+              <option key={state.id} value={state.nome} className="text-black">
+                {state.nome}
+              </option>
+            ))}
+          </select>
+        </div>
+      )}
       <div className="flex items-center justify-center">
         <button
           type="submit"
@@ -192,6 +225,10 @@ const EnergyForm = ({ setFormSubmitted }) => {
 
 EnergyForm.propTypes = {
   setFormSubmitted: PropTypes.func,
+  showConsumingProfile: PropTypes.bool,
+  showPeopleLiving: PropTypes.bool,
+  showEnergyConsumption: PropTypes.bool,
+  showState: PropTypes.bool,
 };
 
 export default EnergyForm;

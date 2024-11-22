@@ -58,7 +58,6 @@ const Graphs = () => {
           }
         }
 
-        // Dados de consumo do usuário
         const storedConsumptionData = JSON.parse(localStorage.getItem("consumptionData"));
         if (storedConsumptionData) {
           energyCons = storedConsumptionData.energyConsumption;
@@ -88,7 +87,7 @@ const Graphs = () => {
           { name: "Estado", value: avgConsumptionState },
         ]);
 
-        // Verificar se os dados já estão no localStorage
+
         const storedSavingsPriceData = JSON.parse(localStorage.getItem("savingsPriceData"));
         const storedSavingsEnergyData = JSON.parse(localStorage.getItem("savingsEnergyData"));
 
@@ -96,7 +95,7 @@ const Graphs = () => {
           setChartExpectedSavingsPrice(storedSavingsPriceData);
           setChartExpectedSavingsEnergy(storedSavingsEnergyData);
         } else {
-          // Gerar dados para "Economia de Dinheiro Esperada para o Ano"
+
           const savingsPriceData = [];
           let currentPrice = priceValue;
           for (let month = 1; month <= 12; month++) {
@@ -111,7 +110,6 @@ const Graphs = () => {
           setChartExpectedSavingsPrice(savingsPriceData);
           localStorage.setItem("savingsPriceData", JSON.stringify(savingsPriceData));
 
-          // Gerar dados para "Economia de Energia Esperada para o Ano"
           const savingsEnergyData = [];
           let currentEnergy = energyCons;
           for (let month = 1; month <= 12; month++) {
@@ -133,7 +131,7 @@ const Graphs = () => {
   return (
     <div className="md:flex md:flex-col sm:flex sm:flex-col lg:grid lg:grid-cols-3 gap-10">
       <div className="bg-white shadow-md shadow-mid-green my-10 px-3 md:px-12 lg:px-3 py-3 rounded-3xl">
-      {/* Gráfico Comparação Estadual */}
+
       <h2 className="text-xl font-bold m-5 text-dark-green text-center lg:text-2xl">Comparação Estadual</h2>
       <ResponsiveContainer width="100%" height={300}>
         <BarChart
@@ -164,7 +162,7 @@ const Graphs = () => {
       </ResponsiveContainer>
       </div>
       <div className="bg-white shadow-md shadow-mid-green my-10 px-3 md:px-12 lg:px-3 rounded-3xl py-8 ">
-      {/* Gráfico Comparação Nacional */}
+
       <h2 className="text-2xl font-bold m-5 text-dark-green text-center lg:text-2xl">Comparação Nacional</h2>
       <ResponsiveContainer width="100%" height={300}>
         <BarChart
@@ -195,7 +193,7 @@ const Graphs = () => {
       </ResponsiveContainer>
       </div>
       <div className="bg-white shadow-md shadow-mid-green my-10 px-3 md:px-12 lg:px-3 rounded-3xl py-8 ">
-      {/* Gráfico Distribuição do Consumo */}
+
       <h2 className="text-2xl font-bold m-5 text-dark-green text-center lg:text-2xl">Distribuição do Consumo</h2>
       <ResponsiveContainer width="100%" height={300}>
         <PieChart>
@@ -214,7 +212,7 @@ const Graphs = () => {
       </ResponsiveContainer>
       </div>
       <div className="col-span-3 bg-white shadow-md shadow-mid-green my-10 px-3 md:px-12 lg:px-12 rounded-3xl py-8 ">
-      {/* Gráfico Economia de Dinheiro Esperada para o Ano */}
+
       <h2 className="text-2xl font-bold m-5 text-dark-green text-center lg:text-2xl">Economia de Dinheiro Esperada para o Ano</h2>
       <ResponsiveContainer width="100%" height={300}>
         <AreaChart
@@ -241,7 +239,7 @@ const Graphs = () => {
       </ResponsiveContainer>
       </div>
       <div className="col-span-3 bg-white shadow-md shadow-mid-green my-10 px-3 md:px-12 lg:px-12 rounded-3xl py-8 ">
-      {/* Gráfico Economia de Energia Esperada para o Ano */}
+
       <h2 className="text-2xl font-bold m-5 text-dark-green text-center lg:text-2xl">Economia de Energia Esperada para o Ano</h2>
       <ResponsiveContainer width="100%" height={300}>
         <AreaChart
