@@ -14,7 +14,9 @@ import {
 
 function GreenflowHome() {
   const { userData, consumptionData } = useContext(UserContext);
-
+  if (!consumptionData){
+    return <p>Carregando...</p>;
+  }
   const data = [
     {
       name: "Seu Consumo",
@@ -64,7 +66,7 @@ function GreenflowHome() {
               </span>{" "}
               usuários já ajudaram o planeta com:
             </h2>
-            <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 pb-20 md:px-5 lg:px-5">
+            <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 pb-20 md:px-5 lg:px-3">
               <InformationCard
                 title="Energia Salva"
                 value="150987 kWh"
