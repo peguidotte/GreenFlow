@@ -126,6 +126,10 @@ const Graphs = () => {
   }, []);
 
   return (
+    <div className="md:flex md:flex-col sm:flex sm:flex-col lg:grid lg:grid-cols-3 gap-10">
+      <div className="bg-white shadow-md shadow-mid-green my-10 px-3 md:px-12 lg:px-3 py-3 rounded-3xl">
+      {/* Gráfico Comparação Estadual */}
+      <h2 className="text-xl font-bold m-5 text-dark-green text-center lg:text-2xl">Comparação Estadual</h2>
     <div>
 
       <h2>Comparação Estadual</h2>
@@ -146,16 +150,20 @@ const Graphs = () => {
           <Legend />
           <Bar
             dataKey="avgConsumption"
-            fill="#8884d8"
+            fill="#85D22C"
             name="Consumo Médio do Estado"
           />
           <Bar
             dataKey="userConsumption"
-            fill="#82ca9d"
+            fill="#598D1D"
             name="Consumo do Usuário"
           />
         </BarChart>
       </ResponsiveContainer>
+      </div>
+      <div className="bg-white shadow-md shadow-mid-green my-10 px-3 md:px-12 lg:px-3 rounded-3xl py-8 ">
+      {/* Gráfico Comparação Nacional */}
+      <h2 className="text-2xl font-bold m-5 text-dark-green text-center lg:text-2xl">Comparação Nacional</h2>
 
       <h2>Comparação Nacional</h2>
       <ResponsiveContainer width="100%" height={300}>
@@ -175,16 +183,20 @@ const Graphs = () => {
           <Legend />
           <Bar
             dataKey="avgConsumption"
-            fill="#8884d8"
+            fill="#85D22C"
             name="Consumo Médio Nacional"
           />
           <Bar
             dataKey="userConsumption"
-            fill="#82ca9d"
+            fill="#598D1D"
             name="Consumo do Usuário"
           />
         </BarChart>
       </ResponsiveContainer>
+      </div>
+      <div className="bg-white shadow-md shadow-mid-green my-10 px-3 md:px-12 lg:px-3 rounded-3xl py-8 ">
+      {/* Gráfico Distribuição do Consumo */}
+      <h2 className="text-2xl font-bold m-5 text-dark-green text-center lg:text-2xl">Distribuição do Consumo</h2>
 
       <h2>Distribuição do Consumo</h2>
       <ResponsiveContainer width="100%" height={300}>
@@ -195,13 +207,17 @@ const Graphs = () => {
             cx="50%"
             cy="50%"
             outerRadius={80}
-            fill="#8884d8"
+            fill="#85D22C"
             label
           />
           <Tooltip />
           <Legend />
         </PieChart>
       </ResponsiveContainer>
+      </div>
+      <div className="col-span-3 bg-white shadow-md shadow-mid-green my-10 px-3 md:px-12 lg:px-12 rounded-3xl py-8 ">
+      {/* Gráfico Economia de Dinheiro Esperada para o Ano */}
+      <h2 className="text-2xl font-bold m-5 text-dark-green text-center lg:text-2xl">Economia de Dinheiro Esperada para o Ano</h2>
 
       <h2>Economia de Dinheiro Esperada para o Ano</h2>
       <ResponsiveContainer width="100%" height={300}>
@@ -221,12 +237,16 @@ const Graphs = () => {
           <Area
             type="monotone"
             dataKey="price"
-            stroke="#8884d8"
-            fill="#8884d8"
+            stroke="#598D1D"
+            fill="#85D22C"
             name="Economia de Dinheiro"
           />
         </AreaChart>
       </ResponsiveContainer>
+      </div>
+      <div className="col-span-3 bg-white shadow-md shadow-mid-green my-10 px-3 md:px-12 lg:px-12 rounded-3xl py-8 ">
+      {/* Gráfico Economia de Energia Esperada para o Ano */}
+      <h2 className="text-2xl font-bold m-5 text-dark-green text-center lg:text-2xl">Economia de Energia Esperada para o Ano</h2>
 
 
       <h2>Economia de Energia Esperada para o Ano</h2>
@@ -247,12 +267,13 @@ const Graphs = () => {
           <Area
             type="monotone"
             dataKey="energy"
-            stroke="#82ca9d"
-            fill="#82ca9d"
+            stroke="#598D1D"
+            fill="#85D22C"
             name="Economia de Energia"
           />
         </AreaChart>
       </ResponsiveContainer>
+      </div>
     </div>
   );
 };

@@ -14,9 +14,8 @@ import {
 
 function GreenflowHome() {
   const { userData, consumptionData } = useContext(UserContext);
-
-  if (!consumptionData) {
-    return <div className="text-2xl text-black mt-24">Por favor, recarregue a página.</div>;
+  if (!consumptionData){
+    return <p>Por Favor Recarregue a página</p>;
   }
 
   const data = [
@@ -32,27 +31,27 @@ function GreenflowHome() {
 
   return (
     <>
-      <div className="flex flex-col items-center md:overflow-x-clip">
+      <div className="flex flex-col items-center md:overflow-x-clip ">
         <p className="text-xl text-center text-white font-medium mb-10 mt-5 sm:text-2xl md:text-3xl lg:text-4xl md:mb-20 ">
           Informações gerais sobre energia do mês passado.
         </p>
         <Feedback tipsDisplay={1} className="absolute" />
-        <p className="relative bottom-24 text-xs text-gray">dica do dia</p>
+        <p className="relative bottom-32 md:bottom-24 text-xs text-gray  ">dica do dia</p>
         <h2 className="text-2xl font-bold mt-20 text-dark-green text-center lg:text-4xl">
           Comparação de Consumo de Energia
         </h2>
-        <div className="w-full max-w-md">
+        <div className="w-full max-w-md shadow-md shadow-mid-green p-3 md:p-12 lg:p-12 mt-6 rounded-3xl" >
           <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={data}>
+            <BarChart data={data} barGap={-130} >
               <CartesianGrid strokeDasharray="2" />
               <XAxis dataKey="name" />           
               <Tooltip />
-              <Bar dataKey="consumoUser" fill="#8884d8" />
-              <Bar dataKey="consumoOthers" fill="#82ca9d" />
+              <Bar dataKey="consumoUser" fill="#85D22C" />
+              <Bar dataKey="consumoOthers" fill="#598D1D" />
             </BarChart>
           </ResponsiveContainer>
         </div>
-        <div className="banner-green rotate-180 py-28 px-20">
+        <div className="banner-green rotate-180 py-28 px-8">
           <div className="rotate-180 flex flex-col justify-start items-center gap-10">
             <h2 className=" text-xl sm:text-2xl md:text-3xl text-center font-medium text-white">
               <span className="font-bold text-2xl sm:text-3xl md:text-4xl">
@@ -68,7 +67,7 @@ function GreenflowHome() {
               </span>{" "}
               usuários já ajudaram o planeta com:
             </h2>
-            <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 pb-20">
+            <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 pb-20 md:px-5 lg:px-3">
               <InformationCard
                 title="Energia Salva"
                 value="150987 kWh"
