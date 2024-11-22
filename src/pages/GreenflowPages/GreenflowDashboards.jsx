@@ -2,8 +2,7 @@ import Graphs from '../../components/Graphs';
 
 function GreenflowDashboards() {
   return (
-    <div>
-      <h2 className="text-2xl font-bold mb-4">Dashboards</h2>
+    <div className='mt-5'>
       <Graphs />
     </div>
   );
