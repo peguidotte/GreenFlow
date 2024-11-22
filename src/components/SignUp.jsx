@@ -2,10 +2,12 @@ import { useState, useEffect, useContext } from "react";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
+import { UserContext } from "../context/UserContext";
 import "../index.css";
 
 const SignUp = ({ isOpen, toggleModal, initialTab }) => {
   const { toggleLogin } = useContext(AuthContext);
+  const { setUserData } = useContext(UserContext);
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState(initialTab);
   const [formData, setFormData] = useState({
@@ -106,6 +108,8 @@ const SignUp = ({ isOpen, toggleModal, initialTab }) => {
       const userId = `user${Object.keys(usersData).length + 1}`;
       usersData[userId] = formData;
       localStorage.setItem("usersData", JSON.stringify(usersData));
+
+      setUserData(formData);
       setFormDataExists(true);
       toggleLogin();
       navigate("/greenflow");

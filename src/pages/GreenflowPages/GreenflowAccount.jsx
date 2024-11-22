@@ -1,7 +1,7 @@
-
+// src/pages/GreenflowPages/GreenflowAccount.jsx
 import { useContext, useState, useEffect } from "react";
 import { UserContext } from "../../context/UserContext";
-import { AuthContext } from "../../context/AuthContext"; 
+import { AuthContext } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
 function GreenflowAccount() {
@@ -20,6 +20,21 @@ function GreenflowAccount() {
       });
     }
   }, [userData]);
+
+  useEffect(() => {
+    const handleStorageChange = (event) => {
+      if (event.key === "usersData") {
+        const storedUserData = JSON.parse(event.newValue);
+        setUserData(storedUserData ? storedUserData[Object.keys(storedUserData)[0]] : null);
+      }
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
+  }, [setUserData]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -45,12 +60,11 @@ function GreenflowAccount() {
   };
 
   const handleLogout = () => {
-    toggleLogin(); 
-    setUserData(null); 
+    toggleLogin();
+    setUserData(null);
     localStorage.clear();
-    navigate("/"); 
+    navigate("/");
   };
-
 
   if (!userData) {
     return (

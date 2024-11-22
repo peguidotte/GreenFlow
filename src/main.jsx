@@ -6,6 +6,7 @@ import Greenflow from "./pages/Greenflow";
 import Cadastro from "./components/SignUp";
 import { AuthProvider } from "./context/AuthProvider";
 import { UserProvider } from "./context/UserProvider";
+import PageNotFound from "./pages/PageNotFound";
 import GreenflowHome from "./pages/GreenflowPages/GreenflowHome";
 import GreenflowDashboards from "./pages/GreenflowPages/GreenflowDashboards";
 import GreenflowDicas from "./pages/GreenflowPages/GreenflowDicas";
@@ -28,6 +29,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
               <Route path="tracker" element={<GreenflowTracker />} />
               <Route path="account" element={<GreenflowAccount />} />
             </Route>
+            <Route path="*" element={<PageNotFound />} />
           </Route>
         </Routes>
       </BrowserRouter>
