@@ -15,7 +15,6 @@ import {
 } from "recharts";
 
 const Graphs = () => {
-  // Estados para os dados dos gráficos
   const [chartDataState, setChartDataState] = useState([]);
   const [chartDataCountry, setChartDataCountry] = useState([]);
   const [charDataGeneral, setCharDataGeneral] = useState([]);
@@ -23,11 +22,10 @@ const Graphs = () => {
   const [chartExpectedSavingsEnergy, setChartExpectedSavingsEnergy] = useState([]);
 
   useEffect(() => {
-    // Buscar dados da API e preparar os dados para os gráficos
     fetch("https://673cd4af96b8dcd5f3fbdb27.mockapi.io/api/v1/consumptionData")
       .then((response) => response.json())
       .then((data) => {
-        // Dados do usuário
+
         const storedUserData = JSON.parse(localStorage.getItem("usersData"));
         let avgConsumptionState = 0;
         let avgConsumptionGeneral = 0;
@@ -58,14 +56,13 @@ const Graphs = () => {
           }
         }
 
-        // Dados de consumo do usuário
         const storedConsumptionData = JSON.parse(localStorage.getItem("consumptionData"));
         if (storedConsumptionData) {
           energyCons = storedConsumptionData.energyConsumption;
           priceValue = storedConsumptionData.price;
         }
 
-        // Preparar os dados para os gráficos
+
         setChartDataState([
           {
             name: "Comparação estadual",
@@ -88,7 +85,6 @@ const Graphs = () => {
           { name: "Estado", value: avgConsumptionState },
         ]);
 
-        // Verificar se os dados já estão no localStorage
         const storedSavingsPriceData = JSON.parse(localStorage.getItem("savingsPriceData"));
         const storedSavingsEnergyData = JSON.parse(localStorage.getItem("savingsEnergyData"));
 
@@ -96,7 +92,7 @@ const Graphs = () => {
           setChartExpectedSavingsPrice(storedSavingsPriceData);
           setChartExpectedSavingsEnergy(storedSavingsEnergyData);
         } else {
-          // Gerar dados para "Economia de Dinheiro Esperada para o Ano"
+
           const savingsPriceData = [];
           let currentPrice = priceValue;
           for (let month = 1; month <= 12; month++) {
@@ -111,7 +107,6 @@ const Graphs = () => {
           setChartExpectedSavingsPrice(savingsPriceData);
           localStorage.setItem("savingsPriceData", JSON.stringify(savingsPriceData));
 
-          // Gerar dados para "Economia de Energia Esperada para o Ano"
           const savingsEnergyData = [];
           let currentEnergy = energyCons;
           for (let month = 1; month <= 12; month++) {
@@ -132,7 +127,7 @@ const Graphs = () => {
 
   return (
     <div>
-      {/* Gráfico Comparação Estadual */}
+
       <h2>Comparação Estadual</h2>
       <ResponsiveContainer width="100%" height={300}>
         <BarChart
@@ -162,7 +157,6 @@ const Graphs = () => {
         </BarChart>
       </ResponsiveContainer>
 
-      {/* Gráfico Comparação Nacional */}
       <h2>Comparação Nacional</h2>
       <ResponsiveContainer width="100%" height={300}>
         <BarChart
@@ -192,7 +186,6 @@ const Graphs = () => {
         </BarChart>
       </ResponsiveContainer>
 
-      {/* Gráfico Distribuição do Consumo */}
       <h2>Distribuição do Consumo</h2>
       <ResponsiveContainer width="100%" height={300}>
         <PieChart>
@@ -210,7 +203,6 @@ const Graphs = () => {
         </PieChart>
       </ResponsiveContainer>
 
-      {/* Gráfico Economia de Dinheiro Esperada para o Ano */}
       <h2>Economia de Dinheiro Esperada para o Ano</h2>
       <ResponsiveContainer width="100%" height={300}>
         <AreaChart
@@ -236,7 +228,7 @@ const Graphs = () => {
         </AreaChart>
       </ResponsiveContainer>
 
-      {/* Gráfico Economia de Energia Esperada para o Ano */}
+
       <h2>Economia de Energia Esperada para o Ano</h2>
       <ResponsiveContainer width="100%" height={300}>
         <AreaChart

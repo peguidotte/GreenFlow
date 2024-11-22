@@ -1,9 +1,12 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import PropTypes from "prop-types";
+import { UserContext } from "../context/UserContext";
 import "./EnergyForm.css";
 
 const EnergyForm = ({ setFormSubmitted }) => {
-  const [formData, setFormData] = useState({
+  const { formData, setFormData, setConsumptionData } = useContext(UserContext); 
+
+  const [formDataLocal, setFormDataLocal] = useState({
     consumingProfile: "",
     peopleLiving: "",
     energyConsumption: "",
@@ -22,49 +25,64 @@ const EnergyForm = ({ setFormSubmitted }) => {
       .catch((error) => console.error("Erro ao buscar estados:", error));
   }, []);
 
+  useEffect(() => {
+    if (formData) {
+      setFormDataLocal({
+        consumingProfile: formData.consumingProfile || "",
+        peopleLiving: formData.peopleLiving || "",
+        energyConsumption: formData.energyConsumption || "",
+        state: formData.state || "",
+      });
+    }
+  }, [formData]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
-    if (name === "peopleLiving" && value < 0) {
+    if ((name === "peopleLiving" || name === "energyConsumption") && value < 0) {
       return;
     }
-    if (name === "energyConsumption" && value < 0) {
-      return;
-    }
-    setFormData({
-      ...formData,
+    setFormDataLocal({
+      ...formDataLocal,
       [name]: value,
     });
   };
 
   const handleKeyDown = (e) => {
-    if (e.key === "-" || e.key === "e" || e.key === "+") {
-      e.preventDefault(); 
+    if (["-", "e", "+"].includes(e.key)) {
+      e.preventDefault();
     }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (
-      !formData.consumingProfile ||
-      !formData.energyConsumption ||
-      !formData.state ||
-      ((formData.consumingProfile === "residencialComum" ||
-        formData.consumingProfile === "residencialBaixaRenda") &&
-        !formData.peopleLiving)
+      !formDataLocal.consumingProfile ||
+      !formDataLocal.energyConsumption ||
+      !formDataLocal.state ||
+      ((formDataLocal.consumingProfile === "residencialComum" ||
+        formDataLocal.consumingProfile === "residencialBaixaRenda") &&
+        !formDataLocal.peopleLiving)
     ) {
       alert("Por favor, preencha todos os campos.");
       return;
     }
 
     const dataToSave = {
-      ...formData,
-      peopleLiving: formData.peopleLiving ? Number(formData.peopleLiving) : null,
-      energyConsumption: Number(formData.energyConsumption),
+      ...formDataLocal,
+      peopleLiving: formDataLocal.peopleLiving
+        ? Number(formDataLocal.peopleLiving)
+        : null,
+      energyConsumption: Number(formDataLocal.energyConsumption),
     };
 
     localStorage.setItem("formData", JSON.stringify(dataToSave));
+
+    setFormData(dataToSave);
+
+    setConsumptionData({ energyConsumption: dataToSave.energyConsumption });
+
     alert("Informações salvas com sucesso!");
-    setFormSubmitted((prev) => !prev); // Toggle the formSubmitted state to trigger re-fetch
+    setFormSubmitted((prev) => !prev); 
   };
 
   return (
@@ -73,10 +91,10 @@ const EnergyForm = ({ setFormSubmitted }) => {
         <select
           aria-label="Selecione seu perfil de consumo"
           className={`${
-            formData.consumingProfile === "" ? "text-gray" : "text-black"
+            formDataLocal.consumingProfile === "" ? "text-gray" : "text-black"
           }`}
           name="consumingProfile"
-          value={formData.consumingProfile}
+          value={formDataLocal.consumingProfile}
           onChange={handleChange}
         >
           <option value="" className="text-gray">
@@ -97,15 +115,15 @@ const EnergyForm = ({ setFormSubmitted }) => {
         </select>
       </div>
       <div
-        className={` ${
-          formData.consumingProfile === "residencialComum" ||
-          formData.consumingProfile === "residencialBaixaRenda"
+        className={`${
+          formDataLocal.consumingProfile === "residencialComum" ||
+          formDataLocal.consumingProfile === "residencialBaixaRenda"
             ? "flex gap-3 items-center"
             : ""
         }`}
       >
-        {(formData.consumingProfile === "residencialComum" ||
-          formData.consumingProfile === "residencialBaixaRenda") && (
+        {(formDataLocal.consumingProfile === "residencialComum" ||
+          formDataLocal.consumingProfile === "residencialBaixaRenda") && (
           <div className="relative">
             <input
               aria-label="Digite o número de residentes"
@@ -113,7 +131,7 @@ const EnergyForm = ({ setFormSubmitted }) => {
               type="number"
               name="peopleLiving"
               placeholder="Residentes"
-              value={formData.peopleLiving}
+              value={formDataLocal.peopleLiving}
               onChange={handleChange}
               onKeyDown={handleKeyDown}
             />
@@ -128,7 +146,7 @@ const EnergyForm = ({ setFormSubmitted }) => {
             placeholder="Consumo em KWh"
             type="number"
             name="energyConsumption"
-            value={formData.energyConsumption}
+            value={formDataLocal.energyConsumption}
             onChange={handleChange}
             onKeyDown={handleKeyDown}
             className="w-full pr-10 kwh"
@@ -142,8 +160,10 @@ const EnergyForm = ({ setFormSubmitted }) => {
         <select
           aria-label="Selecione um estado"
           name="state"
-          className={`${formData.state === "" ? "text-gray" : "text-black"}`}
-          value={formData.state}
+          className={`${
+            formDataLocal.state === "" ? "text-gray" : "text-black"
+          }`}
+          value={formDataLocal.state}
           onChange={handleChange}
         >
           <option value="" className="text-gray">

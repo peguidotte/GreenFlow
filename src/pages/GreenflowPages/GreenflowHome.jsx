@@ -15,6 +15,10 @@ import {
 function GreenflowHome() {
   const { userData, consumptionData } = useContext(UserContext);
 
+  if (!consumptionData) {
+    return <div className="text-2xl text-black mt-24">Por favor, recarregue a página.</div>;
+  }
+
   const data = [
     {
       name: "Seu Consumo",

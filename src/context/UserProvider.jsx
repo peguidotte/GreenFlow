@@ -4,29 +4,73 @@ import { UserContext } from "./UserContext";
 import PropTypes from "prop-types";
 
 export const UserProvider = ({ children }) => {
-  const [userData, setUserData] = useState(null);
-  const [formData, setFormData] = useState(null);
-  const [consumptionData, setConsumptionData] = useState(null);
-  const [loggedIn, setLoggedIn] = useState(false);
+
+  const [userData, setUserData] = useState(() => {
+    const storedUserData = JSON.parse(localStorage.getItem("usersData"));
+    return storedUserData ? storedUserData[Object.keys(storedUserData)[0]] : null;
+  });
+
+
+  const [formData, setFormData] = useState(() => {
+    return JSON.parse(localStorage.getItem("formData")) || null;
+  });
+
+
+  const [consumptionData, setConsumptionData] = useState(() => {
+    return JSON.parse(localStorage.getItem("consumptionData")) || null;
+  });
+
 
   useEffect(() => {
-    const storedUserData = JSON.parse(localStorage.getItem("usersData"));
-    const storedFormData = JSON.parse(localStorage.getItem("formData"));
-    const storedConsumptionData = JSON.parse(localStorage.getItem("consumptionData"));
-
-    if (storedUserData) {
-      const userId = Object.keys(storedUserData)[0];
-      setUserData(storedUserData[userId]);
-      setLoggedIn(true); 
+    if (userData) {
+      const storedUsersData = JSON.parse(localStorage.getItem("usersData")) || {};
+      const userId = Object.keys(storedUsersData)[0] || "defaultUserId";
+      storedUsersData[userId] = userData;
+      localStorage.setItem("usersData", JSON.stringify(storedUsersData));
+    } else {
+      localStorage.removeItem("usersData");
     }
+  }, [userData]);
 
-    if (storedFormData) {
-      setFormData(storedFormData);
-    }
 
-    if (storedConsumptionData) {
-      setConsumptionData(storedConsumptionData);
+  useEffect(() => {
+    if (formData) {
+      localStorage.setItem("formData", JSON.stringify(formData));
+    } else {
+      localStorage.removeItem("formData");
     }
+  }, [formData]);
+
+ 
+  useEffect(() => {
+    if (consumptionData) {
+      localStorage.setItem("consumptionData", JSON.stringify(consumptionData));
+    } else {
+      localStorage.removeItem("consumptionData");
+    }
+  }, [consumptionData]);
+
+  useEffect(() => {
+    const handleStorageChange = (event) => {
+      if (event.key === "usersData") {
+        const storedUserData = JSON.parse(event.newValue);
+        setUserData(storedUserData ? storedUserData[Object.keys(storedUserData)[0]] : null);
+      }
+
+      if (event.key === "formData") {
+        setFormData(event.newValue ? JSON.parse(event.newValue) : null);
+      }
+
+      if (event.key === "consumptionData") {
+        setConsumptionData(event.newValue ? JSON.parse(event.newValue) : null);
+      }
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
   }, []);
 
   return (
@@ -38,8 +82,6 @@ export const UserProvider = ({ children }) => {
         setFormData,
         consumptionData,
         setConsumptionData,
-        loggedIn,
-        setLoggedIn, 
       }}
     >
       {children}

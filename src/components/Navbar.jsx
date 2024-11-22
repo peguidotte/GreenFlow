@@ -77,7 +77,7 @@ const Navbar = () => {
             </div>
           )}
         </nav>
-        {isOpen && (
+        {isOpen && isLoggedIn && (
           <div className=" text-mid-green flex justify-around gap-4 mx-2 p-4 ">
             <Link
               to="greenflow/home"
